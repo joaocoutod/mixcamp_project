@@ -120,13 +120,6 @@
                     </tbody>
                 </table>
             </div><!-- div table -->
-            @else
-
-                <div class="text-center py-3">
-                    <h1 class="text-center">Ainda não á membros</h1>
-                </div>
-
-            @endif
 
             @if($exibir)
             <div class="pb-5">
