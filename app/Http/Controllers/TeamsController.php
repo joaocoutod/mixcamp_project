@@ -40,9 +40,9 @@ class TeamsController extends Controller
         ];
 
         if($team){
-            return view('/user/equipe', ['team' => $team, 'membros' => $membros, 'funcoes' => $funcoes]);
+            return view('/perfil/equipes', ['team' => $team, 'membros' => $membros, 'funcoes' => $funcoes]);
         }else {
-            return view('error404');
+            return view('404');
         }
     }
 
@@ -80,7 +80,7 @@ class TeamsController extends Controller
         $team->save();
 
         if(Auth::check() == true){
-            return redirect('/minhasequipes');
+            return redirect('/perfil/equipes');
         }else{
             return redirect('/');
         }

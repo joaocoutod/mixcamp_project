@@ -35,7 +35,7 @@ Route::get('/logout', [AuthxController::class, 'logout']);
 Route::get('/user/{id}', [UserController::class, 'indexPerfil']);
 
 //VER MINHAS EQUIPES
-Route::get('/user/equipes', [UserController::class, 'minhasEquipes']);
+Route::get('perfil/equipes', [UserController::class, 'minhasEquipes']);
 
 
 

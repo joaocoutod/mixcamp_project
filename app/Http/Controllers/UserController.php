@@ -21,7 +21,7 @@ class UserController extends Controller
         if($user){
             return view('/user/perfil', ['user' => $user]);
         }else {
-            return view('error404');
+            return view('404');
         }
         
     

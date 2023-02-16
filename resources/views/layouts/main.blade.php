@@ -50,7 +50,7 @@
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/user/{{ Auth::user()->id }}">Meu perfil</a>
-                        <a class="dropdown-item" href="/user/equipes">Equipes</a>
+                        <a class="dropdown-item" href="/perfil/equipes">Equipes</a>
                         <a class="dropdown-item" href="/logout">Sair</a>
                     </div>
                 </li>
