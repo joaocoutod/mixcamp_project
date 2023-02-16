@@ -43,7 +43,7 @@
                         <td class="p-4">{{$team->qtd_membros}}</td>
                         <td class="p-3 text-center">
                             <div class="text-center">
-                                <a href="/equipe/{{$team->id}}" class="btn btn-success m-1">Ver</a>
+                                <a href="/equipes/{{$team->id}}" class="btn btn-success m-1">Ver</a>
                                 <a data-bs-toggle="modal" data-bs-target="#deletarTeam{{$team->id}}" class="btn btn-danger m-1" href="#">deletar</a>
                             </div>
                             
@@ -59,7 +59,7 @@
                                             
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
-                                                <a class="btn btn-danger" href="/equipes/deletar/{{$team->id}}">Deletar</a>
+                                                <a class="btn btn-danger" href="/equipe/deletar/{{$team->id}}">Deletar</a>
                                             </div>
                                         </div>
                                     </div>
