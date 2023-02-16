@@ -26,8 +26,8 @@ class TeamsController extends Controller
     //VER EQUIPE POR ID
     public function equipeID($id){
 
-        $team = Teams::where('id', $id)->first();
-        $membros = Membros::all();
+        $team = Teams::where('id', $id)->First();
+        $membros = Membros::where('id_equipe', $id)->get();
 
         $funcoes = [
             'Capitão',
@@ -38,9 +38,19 @@ class TeamsController extends Controller
             'Suporte',
             'Lurker'
         ];
+        
+
+        //VALIDA EXIBIÇÃO DE ALGUNS COMPONENTES
+        $exibir = false;
+        if(Auth::check() == true){
+            if(Auth::user()->id == $team->id_dono){
+                $exibir = true;
+            }
+        }
+
 
         if($team){
-            return view('/perfil/equipes', ['team' => $team, 'membros' => $membros, 'funcoes' => $funcoes]);
+            return view('/user/equipe', ['team' => $team, 'membros' => $membros, 'funcoes' => $funcoes, 'exibir' => $exibir]);
         }else {
             return view('404');
         }
