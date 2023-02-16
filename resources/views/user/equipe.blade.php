@@ -23,7 +23,7 @@
 
     @if($exibir)
         <div class="text-center py-4">
-            <a href="#" class="btn btn-warning">Configuração de time </a>
+            <a class="btn btn-warning  m-1" data-bs-toggle="modal" data-bs-target="#deletarTeam{{$team->id}}" href="#">Configuração de time </a>
             <a href="#" class="btn btn-outline-warning m-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                     <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
@@ -104,7 +104,7 @@
                                                 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
-                                                    <a class="btn btn-danger" href="/equipes/membro/deletar/{{$membro->id}}/{{$team->id}}">Deletar</a>
+                                                    <a class="btn btn-danger" href="/equipe/membro/deletar/{{$membro->id}}/{{$team->id}}">Deletar</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -150,6 +150,64 @@
 </div><!-- MEMBROS -->
 
 
+ <!-- MODAL EDITAR EQUIPE -->
+ <div class="modal fade" id="deletarTeam{{$team->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark">
+                <div class="row g-3">
+
+                    <!-- PREVIEW FOTO -->
+                    <div class="text-center">
+                        <div class="">
+                            <img id="output" width="200" height="200" class="rounded-circle py-2" >
+                        </div>
+                    </div>
+
+                    <!-- FOTO -->
+                    <form method="POST" action="/equipe/alterarlogo" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="id_equipe" value="{{$team->id}}">
+                        <div class="col-sm-12">
+                            <label for="logo">Logo equipe <span class="text-danger">*</span></label>
+                            <input id="logo" type="file" accept="image/png, image/gif, image/jpeg" class="form-control" name="logo" onchange="loadfile(event)" autofocus required>
+                        </div>
+                        <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Foto</button>
+                    </form>
+                    
+                    <!-- NOME -->
+                    <form method="POST" action="/equipe/alterarnome">
+                        @csrf
+                        <input type="hidden" name="id_equipe" value="{{$team->id}}">
+                        <div class="col-sm-12">
+                            <label for="nome">Nome <span class="text-danger">*</span></label>
+                            <input id="nome" class="form-control form-control-lg" name="nome" type="text" placeholder="nome da equipe" aria-label=".form-control-lg" autofocus required>
+                        </div>
+                        <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nome</button>
+                    </form>
+                    
+                    <!-- TAG -->
+                    <form method="POST" action="/equipe/alterartag">
+                        @csrf
+                        <input type="hidden" name="id_equipe" value="{{$team->id}}">
+                        <div class="col-sm-12">
+                            <label for="tag">Tag <span class="text-danger">*</span></label>
+                            <input id="tag" class="form-control form-control-lg" name="tag" type="text" placeholder="tag da equipe" aria-label=".form-control-lg" autofocus required>
+                        </div>
+                        <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Tag</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 
@@ -162,7 +220,7 @@
             </div>
             <div class="modal-body text-dark">
                 <h1 class="text-center">Adicionar Membro</h1>
-                <form method="POST" action="/equipes/membro/create">
+                <form method="POST" action="/equipe/membro/create">
                     @csrf
                     
                     <input type="hidden" name="id_equipe" value="{{$team->id}}">
@@ -200,4 +258,15 @@
         </div>
     </div>
 </div>
+
+
+
+<!--PREVIEW DE IMAGEM-->
+<script>
+    //PREVIEW DE IMAGEM
+    var loadfile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
 @endsection

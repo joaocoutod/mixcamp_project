@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use App\Models\Teams;
 use App\Models\Membros;
 
@@ -27,30 +28,33 @@ class TeamsController extends Controller
     public function equipeID($id){
 
         $team = Teams::where('id', $id)->First();
-        $membros = Membros::where('id_equipe', $id)->get();
-
-        $funcoes = [
-            'Capitão',
-            'Coach',
-            'Awper',
-            'Entry Fragger',
-            'Baiter',
-            'Suporte',
-            'Lurker'
-        ];
         
-
-        //VALIDA EXIBIÇÃO DE ALGUNS COMPONENTES
-        $exibir = false;
-        if(Auth::check() == true){
-            if(Auth::user()->id == $team->id_dono){
-                $exibir = true;
-            }
-        }
-
-
         if($team){
+
+            $membros = Membros::where('id_equipe', $id)->get();
+
+            //FUNCOES DE PLAYER
+            $funcoes = [
+                'Capitão',
+                'Coach',
+                'Awper',
+                'Entry Fragger',
+                'Baiter',
+                'Suporte',
+                'Lurker'
+            ];
+
+            //VALIDA EXIBIÇÃO DE ALGUNS COMPONENTES
+            $exibir = false;
+            if(Auth::check() == true){
+                if(Auth::user()->id == $team->id_dono){
+                    $exibir = true;
+                }
+            }
+
             return view('/user/equipe', ['team' => $team, 'membros' => $membros, 'funcoes' => $funcoes, 'exibir' => $exibir]);
+
+
         }else {
             return view('404');
         }
@@ -99,9 +103,27 @@ class TeamsController extends Controller
 
 
     //ALTERAR EQUIPE
-    public function alterarEquipe($id){
+    public function alterarLogo(Request $request){
+        
+        $equipe = Teams::where('id', $request->id_equipe)->First();
+        $path = storage_path("/img/teams/logo/$equipe->logo"); 
+        File::delete($path);//apaga logo antiga 
 
-        //
+        $requestLogo = $request->logo;
+        $extension = $requestLogo->extension();
+        $logoName = md5($requestLogo->getClientOriginalName().strtotime('now')).".".$extension;
+        $requestLogo->move(public_path('img/teams/logo'), $logoName);//salva logo nova 
+
+        $upd_logo = Teams::where('id', $request->id_equipe)
+                        ->update([
+                            'logo' => $logoName
+                        ]);
+
+        if($upd_logo){
+            return back()->with('success', 'A logo foi alterada com sucesso!');
+        }else {
+            return back()->with('error', 'Error ao alterar logo.');
+        }
 
    }
 
@@ -142,4 +164,9 @@ class TeamsController extends Controller
         
 
    }
+
+
+
+
+
 }

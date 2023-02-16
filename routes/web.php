@@ -48,22 +48,25 @@ Route::get('perfil/equipes', [UserController::class, 'minhasEquipes']);
 Route::get('/criarequipe', [TeamsController::class, 'viewForm']);
 Route::post('/equipe/create', [TeamsController::class, 'createEquipe']);
 
+
 //VER EQUIPE POR {ID}
-Route::get('/equipe/{id}', [TeamsController::class, 'equipeID']);
+Route::get('/equipes/{id}', [TeamsController::class, 'equipeID']);
 
 
 //DELETAR EQUIPE
-Route::get('/equipes/deletar/{id}', [TeamsController::class, 'deleteEquipe']);
+Route::get('/equipe/deletar/{id}', [TeamsController::class, 'deleteEquipe']);
 
-
-
+//EDITAR EQUIPES
+Route::post('/equipe/alterarlogo', [TeamsController::class, 'alterarLogo']);
+Route::post('/equipe/alterarnome', [TeamsController::class, 'alterarNome']);
+Route::post('/equipe/alterartag', [TeamsController::class, 'alterarTag']);
 
 
 
 /********MEMBROS********/
 
 //CRIAR MEMBROS
-Route::post('/equipes/membro/create', [MembroController::class, 'createMembro']);
+Route::post('/equipe/membro/create', [MembroController::class, 'createMembro']);
 
 //EXCLUIR MEMBRO
-Route::get('/equipes/membro/deletar/{id_membro}/{id_equipe}', [MembroController::class, 'deletarMembro']);
+Route::get('/equipe/membro/deletar/{id_membro}/{id_equipe}', [MembroController::class, 'deletarMembro']);
