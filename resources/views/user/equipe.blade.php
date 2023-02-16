@@ -70,7 +70,7 @@
                 <table class="table text-light my-5 table-hove ">
                     <thead>
                         <tr>
-                            <th scope="col">Nome</th>
+                            <th scope="col">Nick</th>
                             <th scope="col">Função</th>
                             <th scope="col">Steam</th>
                             <th scope="col">Faceit</th>
@@ -81,7 +81,7 @@
                         @foreach($membros as $membro)
                         @if($membro->id_equipe == $team->id)
                         <tr>
-                            <th scope="row">{{$membro->nome}}</th>
+                            <th scope="row">{{$membro->nick}}</th>
                             <td>{{$membro->funcao}}</td>
                             <td class="p-2"><a href="{{$membro->link_steam}}" class="btn btn-primary" target="_blank">Steam</a></td>
                             <td class="p-2"><a href="{{$membro->link_faceit}}" class="btn btn-warning" target="_blank">Faceit</a></td>
@@ -100,7 +100,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body text-dark">
-                                                <p>Confirme se deseja deletar o membro <b>{{$membro->nome}}</b></p>
+                                                <p>Confirme se deseja deletar o membro <b>{{$membro->nick}}</b></p>
                                                 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
@@ -226,12 +226,12 @@
                     <input type="hidden" name="id_equipe" value="{{$team->id}}">
                     
                     <div class="col-sm-12 mb-3 ">
-                        <label for="nome" class="text-left">Nick <span class="text-danger">*</span></label>
-                        <input id="nome" type="text" class="form-control" name="nome" autofocus required>
+                        <label for="nick" class="text-left">Nick <span class="text-danger">*</span></label>
+                        <input id="nick" type="text" class="form-control" name="nick" autofocus required>
                     </div>
 
                     <div class="col-sm-12 mb-3">
-                        <label for="nick">Função <span class="text-danger">*</span></label>
+                        <label for="funcao">Função <span class="text-danger">*</span></label>
                         <select name="funcao" id="funcao" class="form-control " autofocus required>
                             @for($i = 0; $i < count($funcoes); $i++)
                             <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>

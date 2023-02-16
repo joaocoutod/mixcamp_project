@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Teams;
-use App\Models\Membros;
 
 class UserController extends Controller
 {

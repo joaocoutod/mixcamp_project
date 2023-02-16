@@ -12,16 +12,16 @@ class MembroController extends Controller
 {
     public function createMembro(Request $request){
 
-        //verify NOME
-        if (Membros::where('nome', $request->nome)->First()) {
-            return back()->with('error', 'O nome do membro ja existe!');
+        //verify NICK
+        if (Membros::where('nick', )->First()) {
+            return back()->with('error', 'O nick ('.$request->nick.') do membro ja existe!');
         }
 
         //CRIAR EQUIPE    
         $team = new Membros;
 
         $team->id_equipe = $request->id_equipe;
-        $team->nome = $request->nome;
+        $team->nick = $request->nick;
         $team->funcao = $request->funcao;
         $team->link_steam = $request->link_steam;
         $team->link_faceit = $request->link_faceit;

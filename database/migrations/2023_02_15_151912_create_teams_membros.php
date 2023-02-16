@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('teams_membros', function (Blueprint $table) {
             $table->id();
             $table->integer('id_equipe');
-            $table->string('nome');
+            $table->string('nick');
             $table->string('funcao');
             $table->text('link_faceit');
             $table->text('link_steam');
