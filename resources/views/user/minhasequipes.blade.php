@@ -30,22 +30,28 @@
                         <th scope="col">Tag</th>
                         <th scope="col">Membros</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($teams as $team)
                     <tr>
-                        <th scope="row">
-                            <img src="/img/teams/logo/{{$team->logo}}" width="50" height="50" class="rounded-circle">
+                        <th scope="row" class="p-3">
+                            <!--<img src="/img/teams/logo/{{$team->logo}}" width="50" height="50" class="rounded-circle">-->
                             {{$team->nome}}
                         </th>
-                        <td class="p-4">{{$team->tag}}</td>
-                        <td class="p-4">{{$team->qtd_membros}}</td>
-                        <td class="p-3 text-center">
+                        <td class="p-3">{{$team->tag}}</td>
+                        <td class="p-3">{{$team->qtd_membros}}</td>
+                        <td class=" text-center">
                             <div class="text-center">
-                                <a href="/equipes/{{$team->id}}" class="btn btn-success m-1">Ver</a>
-                                <a data-bs-toggle="modal" data-bs-target="#deletarTeam{{$team->id}}" class="btn btn-danger m-1" href="#">deletar</a>
+                                <a href="/equipes/{{$team->id}}" class="btn btn-success m-1"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Ver</a>
                             </div>
+                        </td>
+                        <td class=" text-center">
+                            <div class="text-center">
+                                <a data-bs-toggle="modal" data-bs-target="#deletarTeam{{$team->id}}" class="btn btn-danger m-1" href="#"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">deletar</a>
+                            </div>
+                        </td>
                             
                             <!-- MODAL DELETAR Team -->
                             <div class="modal fade" id="deletarTeam{{$team->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
