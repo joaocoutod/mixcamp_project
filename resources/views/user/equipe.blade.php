@@ -184,7 +184,7 @@
                         <input type="hidden" name="id_equipe" value="{{$team->id}}">
                         <div class="col-sm-12">
                             <label for="nome">Nome <span class="text-danger">*</span></label>
-                            <input id="nome" class="form-control form-control-lg" name="nome" type="text" placeholder="nome da equipe" aria-label=".form-control-lg" autofocus required>
+                            <input id="nome" class="form-control form-control-lg" name="nome" type="text" value="{{$team->nome}}" placeholder="nome da equipe" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nome</button>
                     </form>
@@ -195,7 +195,7 @@
                         <input type="hidden" name="id_equipe" value="{{$team->id}}">
                         <div class="col-sm-12">
                             <label for="tag">Tag <span class="text-danger">*</span></label>
-                            <input id="tag" class="form-control form-control-lg" name="tag" type="text" placeholder="tag da equipe" aria-label=".form-control-lg" autofocus required>
+                            <input id="tag" class="form-control form-control-lg" name="tag" type="text" value="{{$team->tag}}" placeholder="tag da equipe" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Tag</button>
                     </form>

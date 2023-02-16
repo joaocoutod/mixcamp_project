@@ -103,6 +103,8 @@ class TeamsController extends Controller
 
 
     //ALTERAR EQUIPE
+
+    //LOGO
     public function alterarLogo(Request $request){
         
         $equipe = Teams::where('id', $request->id_equipe)->First();
@@ -124,8 +126,47 @@ class TeamsController extends Controller
         }else {
             return back()->with('error', 'Error ao alterar logo.');
         }
+    }
 
-   }
+    //NOME
+    public function alterarNome(Request $request){
+        
+        if (Teams::where('nome', $request->nome)->First()) {
+            return back()->with('error', 'O nome de equipe ('.$request->nome.') ja existe!');
+        }
+
+        $upd_nome = Teams::where('id', $request->id_equipe)
+                        ->update([
+                            'nome' => $request->nome
+                        ]);
+        if($upd_nome){
+            return back()->with('success', 'O nome da equipe foi alterado com sucesso!');
+        }else {
+            return back()->with('error', 'Error ao alterar nome.');
+        }
+
+    }
+
+    //TAG
+    public function alterarTag(Request $request){
+        
+        if (Teams::where('nome', $request->tag)->First()) {
+            return back()->with('error', 'A tag de equipe ('.$request->tag.') ja existe!');
+        }
+
+        $upd_tag = Teams::where('id', $request->id_equipe)
+                        ->update([
+                            'tag' => $request->tag
+                        ]);
+        if($upd_tag){
+            return back()->with('success', 'A tag da equipe foi alterado com sucesso!');
+        }else {
+            return back()->with('error', 'Error ao alterar tag.');
+        }
+    
+    }
+
+
 
     //DELETE EQUIPE
     public function deleteEquipe($id){

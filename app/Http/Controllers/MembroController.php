@@ -13,8 +13,16 @@ class MembroController extends Controller
     public function createMembro(Request $request){
 
         //verify NICK
-        if (Membros::where('nick', )->First()) {
-            return back()->with('error', 'O nick ('.$request->nick.') do membro ja existe!');
+        if (Membros::where('nick', $request->nick)->First()) {
+            return back()->with('error', 'O nick ('.$request->nick.') ja existe!');
+        }
+
+        if (Membros::where('link_steam', $request->link_steam)->First()) {
+            return back()->with('error', 'O link da steam ja estar sendo usado por outro usuario.');
+        }
+
+        if (Membros::where('link_faceit', $request->link_faceit)->First()) {
+            return back()->with('error', 'O link da faceit ja estar sendo usado por outro usuario.');
         }
 
         //CRIAR EQUIPE    
