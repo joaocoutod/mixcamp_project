@@ -35,7 +35,7 @@ class MembroController extends Controller
                                 ]);
 
         if(Auth::check() == true){
-            return redirect("/equipe/$request->id_equipe");
+            return redirect("/equipes/$request->id_equipe");
         }else{
             return redirect('/');
         }
