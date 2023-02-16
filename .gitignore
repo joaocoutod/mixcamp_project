@@ -3,7 +3,7 @@
 /public/build
 /public/hot
 /public/storage
-.img/teams/logo/
+/public/img/teams/logo/
 /storage/*.key
 /vendor
 .env
