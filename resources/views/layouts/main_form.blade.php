@@ -54,6 +54,7 @@
                 <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
                     <img src="/img/logo.png" alt="" width="30" height="30">
                 </a>
+                
                 <span class="mb-3 mb-md-0 text-muted">&copy; 2023 Mixcamp
             </p>
         </footer>

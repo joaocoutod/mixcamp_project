@@ -10,7 +10,7 @@
     <div class="col-md-4 p-lg-5 mx-auto my-5">
       <h1 class="display-4 fw-normal">MIXCAMP</h1>
       <p class="lead fw-normal">O mixcamp foi um projeto iniciado para proporcionar a melhor experiência para todos times, armador e já experiêntes.</p>
-      <a class="btn btn-outline-secondary" href="#">Ver campeonatos</a>
+      <a class="btn btn-outline-warning" href="#">Ver campeonatos</a>
     </div>
 </div>
 
