@@ -33,7 +33,7 @@ class TeamsController extends Controller
         if($team){
             //BUSCA MEMBROS DA EQUIPE
             $membros = Membros::where('id_equipe', $id)
-                    ->orderByRaw("CASE WHEN funcao='-Reserva-' THEN 1 ELSE 0 END")
+                    ->orderByRaw("CASE WHEN funcao='Reserva' THEN 1 ELSE 0 END")
                     ->orderByRaw("CASE WHEN funcao='Coach' THEN 0 ELSE 1 END")
                     ->orderByRaw("CASE WHEN funcao='Capitão' THEN 0 ELSE 1 END")
                     ->get();
@@ -49,7 +49,7 @@ class TeamsController extends Controller
                 'Baiter',
                 'Suporte',
                 'Lurker',
-                '-Reserva-'
+                'Reserva'
             ];
 
             //VERIFICA SE JA EXISTE CAPITAO NA EQUIPE

@@ -38,15 +38,15 @@
 
 
 <!-- LISTA DE MEMBROS -->
-<div class="container-fluid text-light text-center ">
-    <div class="row g-3 p-2 justify-content-center">
+<div class="container-fluid text-light text-center">
+    <div class="row g-3  justify-content-center">
         @if(count($membros) > 0)
         <div class="col-sm-8 mt-5">
             <h3>[ Membros ]</h3>
-            <table class="table text-light  table-hove ">    
+            <table class="table text-light table-hove">    
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <!--<th scope="col">#</th>-->
                         <th scope="col">Nick</th>
                         <th scope="col">Função</th>
                         <th scope="col">Steam</th>
@@ -57,8 +57,13 @@
                 <tbody>
                     @foreach($membros as $key => $membro)
                     @if($membro->id_equipe == $team->id)
+                    
+                    @if($membro->funcao == 'Reserva' or $membro->funcao == 'Coach')
                     <tr>
-                        <th scope="row">{{ $key + 1 }}</th>
+                    @else
+                    <tr class="table-success">
+                    @endif
+                        <!--<th scope="row">{{ $key + 1 }}</th>-->
                         <td>{{$membro->nick}}</td>
                         <td>{{$membro->funcao}}</td>
                         <td class="p-2"><a href="{{$membro->link_steam}}" class="btn btn-primary" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Steam</a></td>
@@ -91,8 +96,8 @@
                             @endif
 
                         </td>
-
                     </tr>
+
                     @endif
                     @endforeach
                 </tbody>
@@ -242,7 +247,7 @@
                     
                     <div class="col-sm-12 mb-3 ">
                         <label for="nick" class="text-left">Nick <span class="text-danger">*</span></label>
-                        <input id="nick" type="text" class="form-control" name="nick" autofocus required>
+                        <input id="nick" type="text" minlength="2" maxlength="15" class="form-control" name="nick" autofocus required>
                     </div>
 
                     <div class="col-sm-12 mb-3">

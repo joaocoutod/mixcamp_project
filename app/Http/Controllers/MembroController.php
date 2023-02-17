@@ -14,11 +14,11 @@ class MembroController extends Controller
 
         //verify tamanho do nick
         if (strlen($request->nick) > 15) {
-            return back()->with('error', "O nick ($request->nick) excede o maximo de caracteres!");
+            return back()->with('error', "O nick ue foi inserido excede o maximo de caracteres!");
         }
         //verify tamanho do nick
         if (strlen($request->nick) < 2) {
-            return back()->with('error', "O nick ($request->nick) que foi inserido estar muito curto!");
+            return back()->with('error', "O nick que foi inserido estar muito curto!");
         }
 
         //verify uso NICK
