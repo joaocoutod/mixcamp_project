@@ -23,7 +23,7 @@ class MembroController extends Controller
 
         //verify uso NICK
         if (Membros::where('nick', $request->nick)->First()) {
-            return back()->with('error', 'O nick ('.$request->nick.') ja existe!');
+            return back()->with('error', 'O nick que foi inserido ja existe!');
         }
         
         //É permitido somente 1 na função de capitão e coach
@@ -33,6 +33,23 @@ class MembroController extends Controller
                                 ->get();
             if(count($verifyQtd) > 0){
                 return back()->with('error', "É permitido somente 1 na função de $request->funcao");
+            }
+        }
+
+
+        //LIMITE DE RESERVAS 3
+        if($request->funcao == 'Reserva'){
+            $reservas = Membros::where('id_equipe', $request->id_equipe)->where('funcao', 'Reserva')->get();
+            if(count($reservas) > 3){
+                return back()->with('error', "É permitido somente 3 Reservas");
+            }
+        }
+
+        //LIMITE DE MEMBROS TITULARES = 5 (capitao, player1, player2, player3, player4)
+        if($request->funcao != 'Coach' || $request->funcao != 'Reservas'){
+            $titulares = Membros::where('id_equipe', $request->id_equipe)->whereNotIn('funcao', ['Coach', 'Reserva'])->get();
+            if(count($titulares) > 5){
+                return back()->with('error', "So pode adicionar 5 membros titulares");
             }
         }
 

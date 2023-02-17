@@ -52,6 +52,7 @@ class TeamsController extends Controller
                 'Reserva'
             ];
 
+
             //VERIFICA SE JA EXISTE CAPITAO NA EQUIPE
             $qtdCapitao = Membros::where('id_equipe', $id)->where('funcao', 'Capitão')->get();
             $exibirCapitao = count($qtdCapitao) > 0 ? false : true; //SE JA EXISTIR CAPITAO NAO EXIBE A FUNCAO
@@ -61,9 +62,21 @@ class TeamsController extends Controller
             $qtdCoach = Membros::where('id_equipe', $id)->where('funcao', 'Coach')->get();
             $exibirCoach = count($qtdCoach) > 0 ? false : true;//SE JA EXISTIR COACH NAO EXIBE A FUNCAO
 
+            //LIMITE DE MEMBROS TITULARES = 5 (capitao, player1, player2, player3, player4)
+            $titulares = Membros::where('id_equipe', $id)->whereNotIn('funcao', ['Coach', 'Reserva'])->get();
+            $exibirTitulares = count($titulares) > 4 ? false : true;
+
+            //LIMITE DE RESERVAS
+            $reservas = Membros::where('id_equipe', $id)->where('funcao', 'Reserva')->get();
+            $exibirReservas = count($reservas) > 2 ? false : true;
 
 
-
+            //VERIFICA SE TODOS AS FUNCOES NAO É PRA EXIBIR
+            $exibirFuncoes = true;
+            if(($exibirCapitao == false) && ($exibirCoach == false) && ($exibirReservas) == false && ($exibirTitulares == false)){
+                $exibirFuncoes = false;
+            }
+            
             //VALIDA EXIBIÇÃO DE ALGUNS COMPONENTES
             $exibir = false;
             if(Auth::check() == true){
@@ -72,6 +85,8 @@ class TeamsController extends Controller
                 }
             }
 
+            
+
 
             return view('/user/equipe', [
                 'team' => $team,
@@ -79,7 +94,10 @@ class TeamsController extends Controller
                 'funcoes' => $funcoes, 
                 'exibir' => $exibir,
                 'exibirCapitao' => $exibirCapitao,
-                'exibirCoach' => $exibirCoach
+                'exibirCoach' => $exibirCoach,
+                'exibirTitulares' => $exibirTitulares,
+                'exibirReservas' => $exibirReservas,
+                'exibirFuncoes' => $exibirFuncoes
             ]);
 
 

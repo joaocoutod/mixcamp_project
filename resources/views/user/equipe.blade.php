@@ -106,9 +106,10 @@
         @endif
 
         @if($exibir)
+        @if($exibirFuncoes)
         <div class="pb-3">
             <div class="justify-content-center">
-
+                
                 <a href="#" class="btn btn-success  btn-lg mb-3" data-bs-toggle="modal" data-bs-target="#addMembro" class="btn btn-danger m-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
                         <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
@@ -116,9 +117,10 @@
                     </svg>
                     Adicionar Membro
                 </a>
-
+               
             </div>
         </div>
+        @endif
         @endif
 
     </div> <!-- row -->
@@ -252,11 +254,23 @@
                         <label for="funcao">Função <span class="text-danger">*</span></label>
                         <select name="funcao" id="funcao" class="form-control " autofocus required>
                             @for($i = 0; $i < count($funcoes); $i++)
-                                @if(($funcoes[$i] == 'Capitão' && $exibirCapitao == false) OR $funcoes[$i] == 'Coach' && $exibirCoach == false)
+
+                                @if(//VALIDA SE É PRA EXIBIR FUNÇÃO
+                                    ($funcoes[$i] == 'Capitão' && $exibirCapitao == false) 
+                                    OR ($funcoes[$i] == 'Coach' && $exibirCoach == false)
+
+                                    OR ($funcoes[$i] == 'Awper' && $exibirTitulares == false)
+                                    OR ($funcoes[$i] == 'Entry Fragger' && $exibirTitulares == false)
+                                    OR ($funcoes[$i] == 'Baiter' && $exibirTitulares == false)
+                                    OR ($funcoes[$i] == 'Suporte' && $exibirTitulares == false)
+                                    OR ($funcoes[$i] == 'Lurker' && $exibirTitulares == false)
+                                    
+                                    OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false))
                                     <option value="{{$funcoes[$i]}}" disabled class="text-danger">{{$funcoes[$i]}}</option>
                                 @else
                                     <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>
                                 @endif
+
                             @endfor
                         </select>
                     </div>
