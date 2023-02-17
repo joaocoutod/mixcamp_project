@@ -31,6 +31,10 @@ class TeamsController extends Controller
         $team = Teams::where('id', $id)->First();
         
         if($team){
+            //BUSCA MEMBROS DA EQUIPE
+            $membros = Membros::where('id_equipe', $id)->get();
+
+
 
             //FUNCOES DE PLAYER
             $funcoes = [
@@ -43,28 +47,17 @@ class TeamsController extends Controller
                 'Lurker'
             ];
 
-            //BUSCA MEMBROS DA EQUIPE
-            $membros = Membros::where('id_equipe', $id)->get();
-
-            
             //VERIFICA SE JA EXISTE CAPITAO NA EQUIPE
-            $qtdCapitao = Membros::where('id_equipe', $id)
-                                ->where('funcao', 'Capitão')
-                                ->get();
-            
-            if(count($qtdCapitao) > 0){
-                array_diff($funcoes, ['Capitão']);//SE JA EXISTIR CAPITAO NAO EXIBE A FUNCAO
-            }
+            $qtdCapitao = Membros::where('id_equipe', $id)->where('funcao', 'Capitão')->get();
+            $exibirCapitao = count($qtdCapitao) > 0 ? false : true; //SE JA EXISTIR CAPITAO NAO EXIBE A FUNCAO
 
 
             //VERIFICA SE JA EXISTE COACH NA EQUIPE
-            $qtdCoach = Membros::where('id_equipe', $id)
-                                ->where('funcao', 'Coach')
-                                ->get();
+            $qtdCoach = Membros::where('id_equipe', $id)->where('funcao', 'Coach')->get();
+            $exibirCoach = count($qtdCoach) > 0 ? false : true;//SE JA EXISTIR COACH NAO EXIBE A FUNCAO
 
-            if(count($qtdCoach) > 0){
-                array_diff($funcoes, ['Coach']);//SE JA EXISTIR COACH NAO EXIBE A FUNCAO
-            }
+
+
 
             //VALIDA EXIBIÇÃO DE ALGUNS COMPONENTES
             $exibir = false;
@@ -79,7 +72,9 @@ class TeamsController extends Controller
                 'team' => $team,
                 'membros' => $membros, 
                 'funcoes' => $funcoes, 
-                'exibir' => $exibir
+                'exibir' => $exibir,
+                'exibirCapitao' => $exibirCapitao,
+                'exibirCoach' => $exibirCoach
             ]);
 
 
