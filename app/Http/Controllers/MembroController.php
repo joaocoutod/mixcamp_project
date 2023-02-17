@@ -12,15 +12,36 @@ class MembroController extends Controller
 {
     public function createMembro(Request $request){
 
-        //verify NICK
+        //verify tamanho do nick
+        if (strlen($request->nick) > 15) {
+            return back()->with('error', "O nick ($request->nick) excede o maximo de caracteres!");
+        }
+        //verify tamanho do nick
+        if (strlen($request->nick) < 2) {
+            return back()->with('error', "O nick ($request->nick) que foi inserido estar muito curto!");
+        }
+
+        //verify uso NICK
         if (Membros::where('nick', $request->nick)->First()) {
             return back()->with('error', 'O nick ('.$request->nick.') ja existe!');
         }
+        
+        //É permitido somente 1 na função de capitão e coach
+        if($request->funcao == 'Capitão' || $request->funcao == 'Coach'){
+            $verifyQtd = Membros::where('id_equipe', $request->id_equipe)
+                                ->where('funcao', $request->funcao)
+                                ->get();
+            if(count($verifyQtd) > 0){
+                return back()->with('error', "É permitido somente 1 na função de $request->funcao");
+            }
+        }
 
+        //verify uso de link steam
         if (Membros::where('link_steam', $request->link_steam)->First()) {
             return back()->with('error', 'O link da steam ja estar sendo usado por outro usuario.');
         }
 
+        //verify uso de link faceit
         if (Membros::where('link_faceit', $request->link_faceit)->First()) {
             return back()->with('error', 'O link da faceit ja estar sendo usado por outro usuario.');
         }

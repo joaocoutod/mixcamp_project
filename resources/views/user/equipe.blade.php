@@ -70,10 +70,10 @@
     <!-- LISTA DE MEMBROS -->
     <div class="p-2">
         <div class="row g-3 justify-content-center">
-
             @if(count($membros) > 0)
-            <div class="col-sm-8">
-                <table class="table text-light my-5 table-hove ">
+            <div class="col-sm-8 my-5">
+                <h3>[ Membros ]</h3>
+                <table class="table text-light  table-hove ">    
                     <thead>
                         <tr>
                             <th scope="col">Nick</th>
