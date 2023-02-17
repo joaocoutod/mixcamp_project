@@ -77,9 +77,16 @@
                     @endforeach
                 </tbody>
             </table>
+            @if($criarEquipe != false)
             <div class="text-center py-5">
                 <a href="/criarequipe" class="btn btn-outline-warning p-3">Criar Equipe</a>
             </div>
+            @else
+            <div class="text-center ">
+                <p class="p-3 fs-3">Pode criar até 2 equipes</p>
+            </div>
+            @endif
+
             @else
 
                 <div class="text-center py-5">

@@ -35,7 +35,11 @@ class UserController extends Controller
             $id_dono = Auth::user()->id;
             $teams = Teams::where('id_dono', $id_dono)->get();
 
-            return view('/user/minhasequipes', ['teams' => $teams]);
+            //LIMITE DE EQUIPES QUE UM USUARIO PODE CRIAR = 2
+            $equipes = Teams::where('id_dono', Auth::user()->id)->get();
+            $criarEquipe = count($equipes) > 1 ? false : true; 
+
+            return view('/user/minhasequipes', ['teams' => $teams, 'criarEquipe' => $criarEquipe]);
 
         }else{
 
