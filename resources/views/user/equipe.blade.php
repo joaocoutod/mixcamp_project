@@ -235,7 +235,7 @@
                         <label for="funcao">Função <span class="text-danger">*</span></label>
                         <select name="funcao" id="funcao" class="form-control " autofocus required>
                             @for($i = 0; $i < count($funcoes); $i++)
-                            <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>
+                                <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>
                             @endfor
                         </select>
                     </div>

@@ -41,13 +41,13 @@
                         </div>
 
                         <div class="col-sm-12">
-                            <label for="nome">Nome <span class="text-danger">*</span></label>
-                            <input id="nome" class="form-control form-control-lg" name="nome" type="text" placeholder="nome da equipe" aria-label=".form-control-lg" autofocus required>
+                            <label for="nome">Nome <span class="text-danger">* max 15 caracteres</span></label>
+                            <input id="nome" minlength="2" maxlength="15" class="form-control form-control-lg" name="nome" type="text" placeholder="nome da equipe" aria-label=".form-control-lg" autofocus required>
                         </div>
 
                         <div class="col-sm-12">
-                            <label for="tag">Tag <span class="text-danger">*</span></label>
-                            <input id="tag" class="form-control form-control-lg" name="tag" type="text" placeholder="tag da equipe" aria-label=".form-control-lg" autofocus required>
+                            <label for="tag">Tag <span class="text-danger">* max 5 caracteres</span></label>
+                            <input id="tag" minlength="2" maxlength="5" class="form-control form-control-lg" name="tag" type="text" placeholder="tag da equipe" aria-label=".form-control-lg" autofocus required>
                         </div>
 
                     </div>

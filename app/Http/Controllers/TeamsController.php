@@ -27,11 +27,10 @@ class TeamsController extends Controller
     //VER EQUIPE POR ID
     public function equipeID($id){
 
+        //VERIFICA SE EXISTE O TIME
         $team = Teams::where('id', $id)->First();
         
         if($team){
-
-            $membros = Membros::where('id_equipe', $id)->get();
 
             //FUNCOES DE PLAYER
             $funcoes = [
@@ -44,6 +43,29 @@ class TeamsController extends Controller
                 'Lurker'
             ];
 
+            //BUSCA MEMBROS DA EQUIPE
+            $membros = Membros::where('id_equipe', $id)->get();
+
+            
+            //VERIFICA SE JA EXISTE CAPITAO NA EQUIPE
+            $qtdCapitao = Membros::where('id_equipe', $id)
+                                ->where('funcao', 'Capitão')
+                                ->get();
+            
+            if(count($qtdCapitao) > 0){
+                array_diff($funcoes, ['Capitão']);//SE JA EXISTIR CAPITAO NAO EXIBE A FUNCAO
+            }
+
+
+            //VERIFICA SE JA EXISTE COACH NA EQUIPE
+            $qtdCoach = Membros::where('id_equipe', $id)
+                                ->where('funcao', 'Coach')
+                                ->get();
+
+            if(count($qtdCoach) > 0){
+                array_diff($funcoes, ['Coach']);//SE JA EXISTIR COACH NAO EXIBE A FUNCAO
+            }
+
             //VALIDA EXIBIÇÃO DE ALGUNS COMPONENTES
             $exibir = false;
             if(Auth::check() == true){
@@ -52,7 +74,13 @@ class TeamsController extends Controller
                 }
             }
 
-            return view('/user/equipe', ['team' => $team, 'membros' => $membros, 'funcoes' => $funcoes, 'exibir' => $exibir]);
+
+            return view('/user/equipe', [
+                'team' => $team,
+                'membros' => $membros, 
+                'funcoes' => $funcoes, 
+                'exibir' => $exibir
+            ]);
 
 
         }else {
@@ -64,12 +92,30 @@ class TeamsController extends Controller
     //CREATE EQUIPE
     public function createEquipe(Request $request){
 
+        //verify tamanho do nome
+        if (strlen($request->nome) > 15) {
+            return back()->with('error', "O nome da equipe que foi inserido excede o maximo de caracteres!");
+        }
+        //verify tamanho do nome
+        if (strlen($request->nome) < 2) {
+            return back()->with('error', "O nome da equipe que foi inserido é curto!");
+        }
+
          //verify NOME
          if (Teams::where('nome', $request->nome)->First()) {
             return back()->with('error', 'O nome da equipe ja existe!');
         }
-        
-        //verify NICK
+
+
+        //verify tamanho do tag
+        if (strlen($request->tag) > 15) {
+            return back()->with('error', "A tag da equipe que foi inserido excede o maximo de caracteres!");
+        }
+        //verify tamanho do tag
+        if (strlen($request->tag) < 2) {
+            return back()->with('error', "A tag da equipe que foi inserido é curto!");
+        }
+        //verify TAG
         if (Teams::where('tag', $request->tag)->First()) {
             return back()->with('error', 'A tag da equipe ja existe!');
         }
