@@ -46,6 +46,7 @@
             <table class="table text-light  table-hove ">    
                 <thead>
                     <tr>
+                        <th scope="col">#</th>
                         <th scope="col">Nick</th>
                         <th scope="col">Função</th>
                         <th scope="col">Steam</th>
@@ -54,10 +55,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($membros as $membro)
+                    @foreach($membros as $key => $membro)
                     @if($membro->id_equipe == $team->id)
                     <tr>
-                        <th scope="row">{{$membro->nick}}</th>
+                        <th scope="row">{{ $key + 1 }}</th>
+                        <td>{{$membro->nick}}</td>
                         <td>{{$membro->funcao}}</td>
                         <td class="p-2"><a href="{{$membro->link_steam}}" class="btn btn-primary" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Steam</a></td>
                         <td class="p-2"><a href="{{$membro->link_faceit}}" class="btn btn-warning" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Faceit</a></td>
