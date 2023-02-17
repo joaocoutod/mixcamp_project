@@ -68,5 +68,11 @@ Route::post('/equipe/alterartag', [TeamsController::class, 'alterarTag']);
 //CRIAR MEMBROS
 Route::post('/equipe/membro/create', [MembroController::class, 'createMembro']);
 
+//EDITAR EQUIPES
+Route::post('/equipe/membro/alterarnick', [TeamsController::class, 'alterarNick']);
+//Route::post('/equipe/membro/alterarfuncao', [TeamsController::class, 'alterarFuncao']);
+Route::post('/equipe/membro/alterarlinksteam', [TeamsController::class, 'alterarLinksteam']);
+Route::post('/equipe/membro/alterarlinkfaceit', [TeamsController::class, 'alterarLinkfaceit']);
+
 //EXCLUIR MEMBRO
 Route::get('/equipe/membro/deletar/{id_membro}/{id_equipe}', [MembroController::class, 'deletarMembro']);

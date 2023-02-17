@@ -88,6 +88,70 @@ class MembroController extends Controller
 
     }
 
+    public function alterarNick(Request $request){
+
+        //verify tamanho do nick
+        if (strlen($request->nick) > 15) {
+            return back()->with('error', "O nick ue foi inserido excede o maximo de caracteres!");
+        }
+        //verify tamanho do nick
+        if (strlen($request->nick) < 2) {
+            return back()->with('error', "O nick que foi inserido estar muito curto!");
+        }
+
+        //verify uso NICK
+        if (Membros::where('nick', $request->nick)->First()) {
+            return back()->with('error', 'O nick que foi inserido ja existe!');
+        }
+
+
+        $upd_nick = Membros::where('id', $request->id)
+                            ->update([
+                                'nick' => $request->nick
+                            ]);
+                            
+        if($upd_nick){
+            return back()->with('success', 'A nick foi alterado com sucesso!');
+        }else {
+            return back()->with('error', 'Error ao alterar nick.');
+        }
+
+    }
+
+    public function alterarLinksteam(Request $request){
+        //verify uso de link steam
+        if (Membros::where('link_steam', $request->link_steam)->First()) {
+            return back()->with('error', 'O link da steam ja estar sendo usado por outro usuario.');
+        }
+
+        $upd_steam = Membros::where('id', $request->id)
+                            ->update([
+                                'link_steam' => $request->linksteam
+                            ]);
+        if($upd_steam){
+            return back()->with('success', 'link da steam foi alterado com sucesso!');
+        }else {
+            return back()->with('error', 'Error ao altera link da steam.');
+        }
+    }
+
+    public function alterarLinkfaceit(Request $request){
+        //verify uso de link faceit
+        if (Membros::where('link_faceit', $request->link_faceit)->First()) {
+            return back()->with('error', 'O link da faceit ja estar sendo usado por outro usuario.');
+        }
+
+        $upd_faceit = Membros::where('id', $request->id)
+                            ->update([
+                                'link_faceit' => $request->linkfaceit
+                            ]);
+        if($upd_faceit){
+            return back()->with('success', 'link da faceit foi alterado com sucesso!');
+        }else {
+            return back()->with('error', 'Error ao altera link da faceit.');
+        }
+    }
+
 
     public function deletarMembro($id_membro, $id_equipe){
 

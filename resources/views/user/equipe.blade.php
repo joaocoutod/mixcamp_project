@@ -41,7 +41,7 @@
 <div class="container-fluid text-light text-center">
     <div class="row g-3  justify-content-center">
         @if(count($membros) > 0)
-        <div class="col-sm-8 mt-5">
+        <div class="col-sm-8 mt-5 table-responsive-sm">
             <h3>[ Membros ]</h3>
             <table class="table text-light table-hove">    
                 <thead>
@@ -51,54 +51,144 @@
                         <th scope="col">Função</th>
                         <th scope="col">Steam</th>
                         <th scope="col">Faceit</th>
+                        @if($exibir)
                         <th></th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($membros as $key => $membro)
-                    @if($membro->id_equipe == $team->id)
-                    
-                    @if($membro->funcao == 'Reserva' or $membro->funcao == 'Coach')
-                    <tr>
-                    @else
-                    <tr class="table-success">
-                    @endif
-                        <!--<th scope="row">{{ $key + 1 }}</th>-->
-                        <td>{{$membro->nick}}</td>
-                        <td>{{$membro->funcao}}</td>
-                        <td class="p-2"><a href="{{$membro->link_steam}}" class="btn btn-primary" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Steam</a></td>
-                        <td class="p-2"><a href="{{$membro->link_faceit}}" class="btn btn-warning" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Faceit</a></td>
-                        <td class="p-1 text-center">
-
+                        @if($membro->id_equipe == $team->id)
+                        
+                        @if($membro->funcao == 'Reserva' or $membro->funcao == 'Coach')
+                        <tr>
+                        @else
+                        <tr class="table-success">
+                        @endif
+                            <!--<th scope="row">{{ $key + 1 }}</th>-->
+                            <td>{{$membro->nick}}</td>
+                            <td>{{$membro->funcao}}</td>
+                            <td class="p-2"><a href="{{$membro->link_steam}}" class="btn btn-primary" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Steam</a></td>
+                            <td class="p-2"><a href="{{$membro->link_faceit}}" class="btn btn-warning" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Faceit</a></td>
                             @if($exibir)
-                            <div class="text-center">
-                                <a data-bs-toggle="modal" data-bs-target="#deletarMembro{{$membro->id}}" class="btn btn-danger m-1" href="#"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">deletar</a>
-                            </div>
-                            
-                            <!-- MODAL DELETAR Team -->
-                            <div class="modal fade" id="deletarMembro{{$membro->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header border-0">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body text-dark">
-                                            <p>Confirme se deseja deletar o membro <b>{{$membro->nick}}</b></p>
-                                            
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
-                                                <a class="btn btn-danger" href="/equipe/membro/deletar/{{$membro->id}}/{{$team->id}}">Deletar</a>
+                            <td class="p-1 text-center">
+                                <div class="text-center">
+                                    <a data-bs-toggle="modal" data-bs-target="#verMembro{{$membro->id}}" class="btn btn-success m-1" href="#"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Ver</a>
+                                </div>
+                            </td>
+                            @endif
+                        </tr>
+
+
+                        <!-- MODAL EDITAR MEMBRO -->
+                        <div class="modal fade" id="verMembro{{$membro->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header border-0">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-dark text-light">
+                                        <!-- NOME -->
+                                        <form method="POST" action="/equipe/membro/alterarnick">
+                                            @csrf
+                                            <input type="hidden" name="id_membro" value="{{$membro->id}}">
+                                            <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
+                                            <div class="col-sm-12">
+                                                <label for="nick">Nick <span class="text-danger">*</span></label>
+                                                <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" placeholder="{{$membro->nick}}" aria-label=".form-control-lg" autofocus required>
                                             </div>
+                                            <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nome</button>
+                                        </form>
+
+                                        <!-- FUNCAO 
+                                        <form action="POST" action="">
+                                            @csrf
+                                            <div class="col-sm-12 mb-3">
+                                                <label for="funcao">Função <span class="text-danger">*</span></label>
+                                                <select name="funcao" id="funcao" class="form-control " autofocus required>
+                                                    @for($i = 0; $i < count($funcoes); $i++)
+
+                                                        @if(//VALIDA SE É PRA EXIBIR FUNÇÃO
+                                                            ($funcoes[$i] == 'Capitão' && $exibirCapitao == false) 
+                                                            OR ($funcoes[$i] == 'Coach' && $exibirCoach == false)
+                                                            
+                                                            OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false))
+                                                            @if($funcoes[$i] == $membro->funcao)
+                                                                <option value="{{$funcoes[$i]}}" selected class="text-danger">{{$funcoes[$i]}}</option>
+                                                            @else
+                                                                <option value="{{$funcoes[$i]}}" disabled class="text-danger">{{$funcoes[$i]}}</option>
+                                                            @endif
+                                                        @elseif($funcoes[$i] == $membro->funcao)
+                                                            <option value="{{$funcoes[$i]}}" selected>{{$funcoes[$i]}}</option>
+                                                        @else
+                                                            <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>
+                                                        @endif
+
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                            @if($exibirFuncoes)
+                                                <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Função</button>
+                                            @else
+                                                <button class="w-100 my-3 btn btn-lg btn-warning" disabled type="submit">Alterar Função</button>
+                                            @endif
+                                        </form>
+                                        -->
+
+                                        <!-- LINKSTEAM -->
+                                        <form method="POST" action="/equipe/membro/alterarlinksteam">
+                                            @csrf
+                                            <input type="hidden" name="id_equipe" value="{{$membro->id}}">
+                                            <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
+                                            <div class="col-sm-12">
+                                                <label for="linksteam">Link steam <span class="text-danger">*</span></label>
+                                                <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" placeholder="{{$membro->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                                            </div>
+                                            <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Steam</button>
+                                        </form>
+
+                                         <!-- LINKFACEIT -->
+                                         <form method="POST" action="/equipe/membro/alterarlinkfaceit">
+                                            @csrf
+                                            <input type="hidden" name="id_equipe" value="{{$membro->id}}">
+                                            <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
+                                            <div class="col-sm-12">
+                                                <label for="linkfaceit">Link faceit <span class="text-danger">*</span></label>
+                                                <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" placeholder="{{$membro->link_faceit}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                                            </div>
+                                            <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Faceit</button>
+                                        </form>
+
+
+                                        <div class="col-sm-12">
+                                            <button class="w-100 my-3 btn btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#deletarMembro{{$membro->id}}" class="btn btn-success m-1">Deletar Membro</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            @endif
+                        </div>
 
-                        </td>
-                    </tr>
+                        <!-- MODAL DELETAR Team -->
+                        <div class="modal fade" id="deletarMembro{{$membro->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header border-0">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-dark">
+                                        <p>Confirme se deseja deletar o membro <b>{{$membro->nick}}</b></p>
+                                        
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+                                            <a class="btn btn-danger" href="/equipe/membro/deletar/{{$membro->id}}/{{$team->id}}">Deletar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
 
-                    @endif
+                        @endif
                     @endforeach
                 </tbody>
             </table>
@@ -183,7 +273,7 @@
                     <!-- PREVIEW FOTO -->
                     <div class="text-center">
                         <div class="">
-                            <img id="output" width="200" height="200" class="rounded-circle py-2" >
+                            <img id="output" width="200" height="200" src="/img/teams/logo/{{$team->logo}}" class="rounded-circle py-2" >
                         </div>
                     </div>
 
@@ -204,7 +294,7 @@
                         <input type="hidden" name="id_equipe" value="{{$team->id}}">
                         <div class="col-sm-12">
                             <label for="nome">Nome <span class="text-danger">*</span></label>
-                            <input id="nome" class="form-control form-control-lg" name="nome" type="text" value="{{$team->nome}}" placeholder="nome da equipe" aria-label=".form-control-lg" autofocus required>
+                            <input id="nome" minlength="2" maxlength="15" class="form-control form-control-lg" name="nome" type="text" value="{{$team->nome}}" placeholder="nome da equipe" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nome</button>
                     </form>
@@ -215,7 +305,7 @@
                         <input type="hidden" name="id_equipe" value="{{$team->id}}">
                         <div class="col-sm-12">
                             <label for="tag">Tag <span class="text-danger">*</span></label>
-                            <input id="tag" class="form-control form-control-lg" name="tag" type="text" value="{{$team->tag}}" placeholder="tag da equipe" aria-label=".form-control-lg" autofocus required>
+                            <input id="tag" minlength="2" maxlength="5" class="form-control form-control-lg" name="tag" type="text" value="{{$team->tag}}" placeholder="tag da equipe" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Tag</button>
                     </form>
@@ -238,7 +328,7 @@
             <div class="modal-header border-0">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-dark">
+            <div class="modal-body text-dark ">
                 <h1 class="text-center">Adicionar Membro</h1>
                 <form method="POST" action="/equipe/membro/create">
                     @csrf
@@ -277,12 +367,12 @@
 
                     <div class="col-sm-12 mb-3 ">
                         <label for="link_steam" class="text-left">Link steam <span class="text-danger">*</span></label>
-                        <input id="link_steam" type="text" class="form-control" name="link_steam" autofocus required type="url" placeholder="https://steamcommunity.com/id/exemple"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                        <input id="link_steam" type="text" class="form-control" name="link_steam" type="url" placeholder="https://steamcommunity.com/id/exemple"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
                     </div>
 
                     <div class="col-sm-12 mb-3 ">
                         <label for="link_faceit" class="text-left">Link Faceit <span class="text-danger">*</span></label>
-                        <input id="link_faceit" type="text" class="form-control" name="link_faceit" autofocus required type="url" placeholder="https://www.faceit.com/pt-br/players/exemple"  pattern="https://www.faceit.com/.*" aria-label=".form-control-lg" autofocus required>
+                        <input id="link_faceit" type="text" class="form-control" name="link_faceit" type="url" placeholder="https://www.faceit.com/pt-br/players/exemple"  pattern="https://www.faceit.com/.*" aria-label=".form-control-lg" autofocus required>
                     </div>
                     
                     <div class="modal-footer">
