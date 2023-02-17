@@ -103,7 +103,6 @@
                 </tbody>
             </table>
         </div><!-- div table -->
-
         @endif
 
         @if($exibir)
@@ -123,7 +122,6 @@
         @endif
 
     </div> <!-- row -->
-
 </div><!-- LISTA DE MEMBROS -->
 
 
@@ -254,7 +252,6 @@
                         <label for="funcao">Função <span class="text-danger">*</span></label>
                         <select name="funcao" id="funcao" class="form-control " autofocus required>
                             @for($i = 0; $i < count($funcoes); $i++)
-
                                 @if(($funcoes[$i] == 'Capitão' && $exibirCapitao == false) OR $funcoes[$i] == 'Coach' && $exibirCoach == false)
                                     <option value="{{$funcoes[$i]}}" disabled class="text-danger">{{$funcoes[$i]}}</option>
                                 @else
