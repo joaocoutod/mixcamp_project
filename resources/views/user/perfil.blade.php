@@ -74,8 +74,8 @@
 
                         @if($user->link_faceit != 'x')
                         <a href="{{$user->link_faceit}}" class="btn btn-light w-100 btn-lg" target="_blank">
-                            <img src="/img/icon/gc.png" alt="" width="20" height="20">
-                            Gamesclub
+                            <img src="/img/icon/faceit.png" alt="" width="20" height="20">
+                            Faceit
                         </a>
                         @endif
 
@@ -167,11 +167,11 @@
                         </div>
                         <div class="col-sm-12 pb-2">
                             <label for="novasenha">Nova Senha<span class="text-danger">*</span></label>
-                            <input id="novasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="senhanova" type="text" placeholder="******" aria-label=".form-control-lg" autofocus required>
+                            <input id="novasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="senhanova" type="password" placeholder="******" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <div class="col-sm-12 pb-2">
                             <label for="confnovasenha">Confirme a nova senha<span class="text-danger">*</span></label>
-                            <input id="confnovasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="confnovasenha" type="text" placeholder="******" aria-label=".form-control-lg" autofocus required>
+                            <input id="confnovasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="confnovasenha" type="password" placeholder="******" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Senha</button>
                     </form>
