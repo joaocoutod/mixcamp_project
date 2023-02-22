@@ -30,8 +30,8 @@
 
         <div class="row g-3">
             <div class="col-sm-12">
-                <label for="email">Email <span class="text-danger">*</span></label>
-                <input id="email" class="form-control form-control-lg" name="email" type="email" placeholder="exemple@exemple.com" aria-label=".form-control-lg" autofocus required>
+                <label for="nick">Nick <span class="text-danger">*</span></label>
+                <input id="nick" class="form-control form-control-lg" name="nick" type="nick" placeholder="nickname" aria-label=".form-control-lg" autofocus required>
             </div>
 
 

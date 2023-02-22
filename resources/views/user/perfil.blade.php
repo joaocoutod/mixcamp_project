@@ -6,7 +6,7 @@
     <div class="container-fluid text-light text-center ">
         
         <div class="profile pt-5">
-            <img src="/img/logo.png" width="200" height="200" class="rounded-circle py-2">
+            <img src="/img/users/logo/{{$user->foto}}" width="200" height="200" class="rounded-circle py-2">
             
             <h2>{{ $user->nick }}</h2>
             
@@ -16,7 +16,7 @@
                     @if(Auth::check() == true)
                         @if(Auth::user()->nick == $user->nick)
                     <div class="col-sm-6">
-                        <a href="#" class="btn btn-warning">Configuração de conta </a>
+                        <a href="#" class="btn btn-warning" class="btn btn-warning  m-1" data-bs-toggle="modal" data-bs-target="#editarUser{{$user->id}}">Configuração de conta </a>
                         <a href="#" class="btn btn-outline-warning m-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                                 <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
@@ -53,8 +53,8 @@
                         </a>
                         @endif
 
-                        @if($user->link_gamesclub != 'x')
-                        <a href="#" class="btn btn-light w-100 btn-lg" target="_blank">
+                        @if($user->link_faceit != 'x')
+                        <a href="{{$user->link_faceit}}" class="btn btn-light w-100 btn-lg" target="_blank">
                             <img src="/img/icon/gc.png" alt="" width="20" height="20">
                             Gamesclub
                         </a>
@@ -68,5 +68,88 @@
         </div>
     </div>
 
-    
+<!-- MODAL EDITAR EQUIPE -->
+<div class="modal fade" id="editarUser{{$user->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark">
+                <div class="row g-3">
+
+                    <!-- PREVIEW FOTO -->
+                    <div class="text-center">
+                        <div class="">
+                            <img id="output" width="200" height="200" src="/img/users/logo/{{$user->foto}}" class="rounded-circle py-2" >
+                        </div>
+                    </div>
+
+                    <!-- FOTO -->
+                    <form method="POST" action="/user/alterar/alterarlogo" enctype="multipart/form-data">
+                        @csrf
+                        <div class="col-sm-12">
+                            <label for="foto">Foto de perfil<span class="text-danger">*</span></label>
+                            <input id="foto" type="file" accept="image/png, image/gif, image/jpeg" class="form-control" name="foto" onchange="loadfile(event)" autofocus required>
+                        </div>
+                        <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Foto</button>
+                    </form>
+                    
+                    <!-- NOME -->
+                    <form method="POST" action="/user/alterar/alterarnick">
+                        @csrf
+                        <input type="hidden" name="id_membro" value="{{$user->id}}">
+                        <div class="col-sm-12">
+                            <label for="nick">Nick <span class="text-danger">* (esse é o nick de login)</span></label>
+                            <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" placeholder="{{$user->nick}}" aria-label=".form-control-lg" autofocus required>
+                        </div>
+                        <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nick</button>
+                    </form>
+
+                    <!-- LINKSTEAM -->
+                    <form method="POST" action="/user/alterar/alterarlinksteam">
+                        @csrf
+                        <input type="hidden" name="id_equipe" value="{{$user->id}}">
+                        <div class="col-sm-12">
+                            <label for="linksteam">Link steam <span class="text-danger">*</span></label>
+                            <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" placeholder="{{$user->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                        </div>
+                        <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Steam</button>
+                    </form>
+
+                        <!-- LINKFACEIT -->
+                        <form method="POST" action="/user/alterar/alterarlinkfaceit">
+                        @csrf
+                        <div class="col-sm-12">
+                            <label for="linkfaceit">Link faceit <span class="text-danger">*</span></label>
+                            <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" placeholder="{{$user->link_faceit}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                        </div>
+                        <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Faceit</button>
+                    </form>
+                    
+
+                    <!-- NOME -->
+                    <form method="POST" action="/user/alterar/alterarsenha">
+                        @csrf
+                        <div class="col-sm-12 pb-2">
+                            <label for="senha">Senha Atual<span class="text-danger">*</span></label>
+                            <input id="senha" minlength="2" maxlength="10" class="form-control form-control-lg" name="senha" type="password" placeholder="******" aria-label=".form-control-lg" autofocus required>
+                        </div>
+                        <div class="col-sm-12 pb-2">
+                            <label for="novasenha">Nova Senha<span class="text-danger">*</span></label>
+                            <input id="novasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="novasenha" type="password" placeholder="******" aria-label=".form-control-lg" autofocus required>
+                        </div>
+                        <div class="col-sm-12 pb-2">
+                            <label for="confnovasenha">Confirme a nova senha<span class="text-danger">*</span></label>
+                            <input id="confnovasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="confnovasenha" type="password" placeholder="******" aria-label=".form-control-lg" autofocus required>
+                        </div>
+                        <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Senha</button>
+                    </form>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    
 @endsection

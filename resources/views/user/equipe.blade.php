@@ -23,7 +23,7 @@
 
     @if($exibir)
         <div class="text-center">
-            <a class="btn btn-warning  m-1" data-bs-toggle="modal" data-bs-target="#deletarTeam{{$team->id}}" href="#">Configuração de time </a>
+            <a class="btn btn-warning  m-1" data-bs-toggle="modal" data-bs-target="#editarTeam{{$team->id}}" href="#">Configuração de time </a>
             <a href="#" class="btn btn-outline-warning m-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                     <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
@@ -97,7 +97,7 @@
                                                 <label for="nick">Nick <span class="text-danger">*</span></label>
                                                 <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" placeholder="{{$membro->nick}}" aria-label=".form-control-lg" autofocus required>
                                             </div>
-                                            <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nome</button>
+                                            <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nick</button>
                                         </form>
 
                                         <!-- FUNCAO 
@@ -197,7 +197,7 @@
 
         @if($exibir)
         @if($exibirFuncoes)
-        <div class="pb-3">
+        <div class="p-3">
             <div class="justify-content-center">
                 
                 <a href="#" class="btn btn-success  btn-lg mb-3" data-bs-toggle="modal" data-bs-target="#addMembro" class="btn btn-danger m-1">
@@ -210,6 +210,7 @@
                
             </div>
         </div>
+
         @endif
         @endif
 
@@ -261,7 +262,7 @@
 
 
  <!-- MODAL EDITAR EQUIPE -->
- <div class="modal fade" id="deletarTeam{{$team->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+ <div class="modal fade" id="editarTeam{{$team->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header border-0">

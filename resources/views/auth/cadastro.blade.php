@@ -26,10 +26,6 @@
         @endif
 
         <div class="row g-3">
-            <div class="col-sm-12">
-                <label for="email">Email <span class="text-danger">*</span></label>
-                <input id="email" class="form-control form-control-lg" name="email" type="email" placeholder="exemple@exemple.com" aria-label=".form-control-lg" autofocus required>
-            </div>
 
             <div class="col-sm-12">
                 <label for="nick">Nick <span class="text-danger">*</span></label>
@@ -43,12 +39,12 @@
 
             <div class="col-sm-12">
                 <label for="password">Senha <span class="text-danger">*</span></label>
-                <input id="password" class="form-control form-control-lg" name="password" type="password" placeholder="*********" aria-label=".form-control-lg" autofocus required>
+                <input id="password" minlength="2" maxlength="10" class="form-control form-control-lg" name="password" type="password" placeholder="*********" aria-label=".form-control-lg" autofocus required>
             </div>
 
             <div class="col-sm-12">
                 <label for="password-c">Confirme a Senha <span class="text-danger">*</span></label>
-                <input id="password-c" class="form-control form-control-lg" name="password_confirmation" type="password" placeholder="*********" aria-label=".form-control-lg" autofocus required>
+                <input id="password-c" minlength="2" maxlength="10" class="form-control form-control-lg" name="password_confirmation" type="password" placeholder="*********" aria-label=".form-control-lg" autofocus required>
             </div>
         </div>
         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Cadastrar</button>

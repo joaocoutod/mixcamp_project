@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Membros;
 
 class AuthxController extends Controller
 {
@@ -20,13 +21,7 @@ class AuthxController extends Controller
     //-------------LOGIN---------------/
     public function authLogin(Request $request){
 
-        //VALIDA EMAIL
-        if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
-            return back()->with('error', 'O email estar invalido!');
-        }
-
-
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('nick', $request->nick)->First();
         if ($user) {
 
             if (Hash::check($request->password, $user->password))  {//valida senha
@@ -46,11 +41,6 @@ class AuthxController extends Controller
     public function authCadastro(Request $request){
         if(!empty($request)){
 
-            //VERIFY EMAIL
-            if (User::where('email', $request->email)->First()) {
-                return back()->with('error', 'O email ja existe!');
-            }
-            
             //VERIFY NICK
             if (User::where('nick', $request->nick)->First()) {
                 return back()->with('error', 'O nick ('.$request->nick.') ja existe!');
@@ -61,15 +51,25 @@ class AuthxController extends Controller
                 return back()->with('error', 'Confirmação de senha não confere');
             }
 
+            //verify uso de link steam
+            if (Membros::where('link_steam', $request->link_steam)->First()) {
+                return back()->with('error', 'O link da steam ja estar sendo usado por um membro.');
+            }
+
+            //verify uso de link steam
+            if (User::where('link_steam', $request->link_steam)->First()) {
+                return back()->with('error', 'O link da steam ja estar sendo usado por um usuario.');
+            }
+
+
             
             //CRIAR USER
             $user = new User;
-
-            $user->email = $request->email;
+            $user->nick = $request->nick; 
             $user->password = Hash::make($request->password);
-            $user->nick = $request->nick;   
+            $user->foto = 'logo.png'; 
             $user->link_steam = $request->link_steam;
-            $user->link_gamesclub = 'x';
+            $user->link_faceit = 'x';
             $user->team = 0;
 
             $user->save();

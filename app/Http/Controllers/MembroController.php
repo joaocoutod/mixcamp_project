@@ -105,7 +105,7 @@ class MembroController extends Controller
         }
 
 
-        $upd_nick = Membros::where('id', $request->id)
+        $upd_nick = Membros::where('id', $request->id_membro)
                             ->update([
                                 'nick' => $request->nick
                             ]);
@@ -124,7 +124,7 @@ class MembroController extends Controller
             return back()->with('error', 'O link da steam ja estar sendo usado por outro usuario.');
         }
 
-        $upd_steam = Membros::where('id', $request->id)
+        $upd_steam = Membros::where('id', $request->id_membro)
                             ->update([
                                 'link_steam' => $request->linksteam
                             ]);
@@ -141,7 +141,7 @@ class MembroController extends Controller
             return back()->with('error', 'O link da faceit ja estar sendo usado por outro usuario.');
         }
 
-        $upd_faceit = Membros::where('id', $request->id)
+        $upd_faceit = Membros::where('id', $request->id_membro)
                             ->update([
                                 'link_faceit' => $request->linkfaceit
                             ]);
