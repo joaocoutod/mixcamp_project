@@ -4,6 +4,17 @@
 
 @section('content')
     <div class="container-fluid text-light text-center ">
+        @if(session('success'))
+            <div class="container alert alert-success text-center" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="container alert alert-danger text-center" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
         
         <div class="profile pt-5">
             <img src="/img/users/logo/{{$user->foto}}" width="200" height="200" class="rounded-circle py-2">
@@ -105,6 +116,7 @@
                     <!-- FOTO -->
                     <form method="POST" action="/user/alterar/alterarlogo" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">
                             <label for="foto">Foto de perfil<span class="text-danger">*</span></label>
                             <input id="foto" type="file" accept="image/png, image/gif, image/jpeg" class="form-control" name="foto" onchange="loadfile(event)" autofocus required>
@@ -174,6 +186,11 @@
 
 
 <script>
+    //PREVIEW DE IMAGEM
+    var loadfile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    }
 
     document.getElementById("copyButton").addEventListener("click", function() {
         var idperfil = document.getElementById('id_user').value;

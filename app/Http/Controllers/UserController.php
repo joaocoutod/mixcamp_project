@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 use App\Models\User;
 use App\Models\Teams;
 
@@ -26,6 +27,33 @@ class UserController extends Controller
     
     }
     
+
+    //LOGO
+    public function alterarLogo(Request $request){
+        
+        $user = User::where('id', $request->id_user)->First();
+
+        if(file_exists("/img/users/logo/$user->foto")){
+            $path = storage_path("/img/users/logo/$equipe->logo"); 
+            File::delete($path);//apaga foto antiga 
+        }
+
+        $requestFoto = $request->foto;
+        $extension = $requestFoto->extension();
+        $fotoName = md5($requestFoto->getClientOriginalName().strtotime('now')).".".$extension;
+        $requestFoto->move(public_path('img/users/logo/'), $fotoName);//salva foto nova 
+
+        $upd_foto = User::where('id', $request->id_user)
+                        ->update([
+                            'foto' => $fotoName
+                        ]);
+
+        if($upd_foto){
+            return back()->with('success', 'A foto foi alterada com sucesso!');
+        }else {
+            return back()->with('error', 'Error ao alterar foto.');
+        }
+    }
     
     //MINHAS EQUIPES
     public function minhasequipes(){

@@ -4,6 +4,7 @@
 /public/hot
 /public/storage
 /public/img/teams/logo/
+/public/img/users/logo/
 /storage/*.key
 /vendor
 .env
