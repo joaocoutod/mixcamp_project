@@ -69,7 +69,7 @@ class AuthxController extends Controller
             $user->password = Hash::make($request->password);
             $user->foto = 'logo.png'; 
             $user->link_steam = $request->link_steam;
-            $user->link_faceit = 'x';
+            $user->link_faceit = 'null';
             $user->team = 0;
 
             $user->save();

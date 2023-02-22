@@ -123,9 +123,15 @@ class UserController extends Controller
             return back()->with('error', 'O link da steam ja estar sendo usado por um membro.');
         }
 
+        if(empty($request->linksteam)){
+            $newlink = 'null';
+        }else{
+            $newlink = $request->linksteam;
+        }
+
         $upd_steam = User::where('id', $request->id_user)
                             ->update([
-                                'link_steam' => $request->linksteam
+                                'link_steam' => $newlink
                             ]);
         if($upd_steam){
             return back()->with('success', 'link da steam foi alterado com sucesso!');
@@ -145,9 +151,14 @@ class UserController extends Controller
             return back()->with('error', 'O link da faceit ja estar sendo usado por um membro.');
         }
 
+        if(empty($request->linkfaceit)){
+            $newlink = 'null';
+        }else{
+            $newlink = $request->linkfaceit;
+        }
         $upd_faceit = User::where('id', $request->id_user)
                             ->update([
-                                'link_faceit' => $request->linkfaceit
+                                'link_faceit' => $newlink
                             ]);
         if($upd_faceit){
             return back()->with('success', 'link da faceit foi alterado com sucesso!');

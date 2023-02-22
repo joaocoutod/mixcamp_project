@@ -62,7 +62,7 @@
                             @endif
                         @endif
 
-                        @if($user->link_steam)
+                        @if($user->link_steam != 'null')
                         <a href="{{$user->link_steam}}" class="btn btn-primary w-100 btn-lg mb-3" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-steam" viewBox="0 0 16 16">
                                 <path d="M.329 10.333A8.01 8.01 0 0 0 7.99 16C12.414 16 16 12.418 16 8s-3.586-8-8.009-8A8.006 8.006 0 0 0 0 7.468l.003.006 4.304 1.769A2.198 2.198 0 0 1 5.62 8.88l1.96-2.844-.001-.04a3.046 3.046 0 0 1 3.042-3.043 3.046 3.046 0 0 1 3.042 3.043 3.047 3.047 0 0 1-3.111 3.044l-2.804 2a2.223 2.223 0 0 1-3.075 2.11 2.217 2.217 0 0 1-1.312-1.568L.33 10.333Z"/>
@@ -72,7 +72,7 @@
                         </a>
                         @endif
 
-                        @if($user->link_faceit != 'x')
+                        @if($user->link_faceit != 'null')
                         <a href="{{$user->link_faceit}}" class="btn btn-light w-100 btn-lg" target="_blank">
                             <img src="/img/icon/faceit.png" alt="" width="20" height="20">
                             Faceit
@@ -140,7 +140,12 @@
                         <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">
                             <label for="linksteam">Link steam <span class="text-danger">*</span></label>
-                            <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" value="{{$user->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                            @if($user->link_steam == 'null')
+                            <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" value=""  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg">
+                            @else
+                            <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" value="{{$user->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg">
+                            @endif
+                           
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Steam</button>
                     </form>
@@ -151,7 +156,11 @@
                         <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">
                             <label for="linkfaceit">Link faceit <span class="text-danger">*</span></label>
-                            <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" value="{{$user->link_faceit}}"  pattern="https://www.faceit.com/.*" aria-label=".form-control-lg" autofocus required>
+                            @if($user->link_faceit == 'null')
+                            <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" value=""  pattern="https://www.faceit.com/.*" aria-label=".form-control-lg">
+                            @else
+                            <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" value="{{$user->link_faceit}}"  pattern="https://www.faceit.com/.*" aria-label=".form-control-lg">
+                            @endif
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Faceit</button>
                     </form>
