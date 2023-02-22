@@ -32,12 +32,14 @@
                 <div class="row g-3 justify-content-center">
 
                     <div class="col-sm-3">
+                        @if(Auth::check() == false)
                         <button id="copyButton" class="btn btn-outline-warning w-100 btn-lg mb-3">
                             Compartilhar Perfil
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                                 <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
                             </svg>
                         </button>
+                        @endif
 
                         @if(Auth::check() == true)
                             @if(Auth::user()->nick == $user->nick)
@@ -85,7 +87,13 @@
             <div class="modal-body text-dark">
                 <div class="row g-3">   
 
-                    <input type="hidden" id="id_equipe" name="id_equipe" value="{{$user->id}}">
+                    <input type="hidden" id="id_user" name="id_user" value="{{$user->id}}">
+
+                    @if(Auth::check() == true)
+                        <input type="hidden" id="authcheck" value="1">
+                    @else
+                        <input type="hidden" id="authcheck" value="0">                                        
+                    @endif
 
                     <!-- PREVIEW FOTO -->
                     <div class="text-center">
@@ -107,7 +115,7 @@
                     <!-- NOME -->
                     <form method="POST" action="/user/alterar/alterarnick">
                         @csrf
-                        <input type="hidden" name="id_membro" value="{{$user->id}}">
+                        <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">
                             <label for="nick">Nick <span class="text-danger">* (esse é o nick de login)</span></label>
                             <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" placeholder="{{$user->nick}}" aria-label=".form-control-lg" autofocus required>
@@ -118,7 +126,7 @@
                     <!-- LINKSTEAM -->
                     <form method="POST" action="/user/alterar/alterarlinksteam">
                         @csrf
-                        <input type="hidden" name="id_equipe" value="{{$user->id}}">
+                        <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">
                             <label for="linksteam">Link steam <span class="text-danger">*</span></label>
                             <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" placeholder="{{$user->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
@@ -129,6 +137,7 @@
                         <!-- LINKFACEIT -->
                         <form method="POST" action="/user/alterar/alterarlinkfaceit">
                         @csrf
+                        <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">
                             <label for="linkfaceit">Link faceit <span class="text-danger">*</span></label>
                             <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" placeholder="{{$user->link_faceit}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
@@ -140,6 +149,7 @@
                     <!-- NOME -->
                     <form method="POST" action="/user/alterar/alterarsenha">
                         @csrf
+                        <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12 pb-2">
                             <label for="senha">Senha Atual<span class="text-danger">*</span></label>
                             <input id="senha" minlength="2" maxlength="10" class="form-control form-control-lg" name="senha" type="password" placeholder="******" aria-label=".form-control-lg" autofocus required>
@@ -166,15 +176,25 @@
 <script>
 
     document.getElementById("copyButton").addEventListener("click", function() {
-        var idperfil = document.getElementById('id_equipe').value;
+        var idperfil = document.getElementById('id_user').value;
         var url = 'http://127.0.0.1:8000/user/'+idperfil;
+
+        var authcheck = document.getElementById('authcheck').value;
 
         navigator.clipboard.writeText(url);
         var copyButton = document.getElementById("copyButton");
         copyButton.innerText = "Link Copiado!";
-        setTimeout(function() {
-            copyButton.innerHTML = 'Compartilhar Perfil <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>';
-        }, 2000);
+
+        if(authcheck == 1){
+            setTimeout(function() {
+                copyButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>';
+            }, 2000);
+        }else{
+            setTimeout(function() {
+                copyButton.innerHTML = 'Compartilhar Perfil <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>';
+            }, 2000);
+        }
+        
     });
 
 </script>

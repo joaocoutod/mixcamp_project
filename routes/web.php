@@ -35,10 +35,10 @@ Route::get('/logout', [AuthxController::class, 'logout']);
 Route::get('/user/{id}', [UserController::class, 'indexPerfil']);
 
 //EDITAR USERS
-Route::post('/user/alterar/alterarlogo', [TeamsController::class, 'alterarLogo']);
-Route::post('/user/alterar/alterarnick', [TeamsController::class, 'alterarNick']);
-Route::post('/user/alterar/alterarlinksteam', [TeamsController::class, 'alterarlinkSteam']);
-Route::post('/user/alterar/alterarlinkfaceit', [TeamsController::class, 'alterarlinkFaceit']);
+Route::post('/user/alterar/alterarlogo', [UserController::class, 'alterarLogo']);
+Route::post('/user/alterar/alterarnick', [UserController::class, 'alterarNick']);
+Route::post('/user/alterar/alterarlinksteam', [UserController::class, 'alterarlinkSteam']);
+Route::post('/user/alterar/alterarlinkfaceit', [UserController::class, 'alterarlinkFaceit']);
 
 //VER MINHAS EQUIPES
 Route::get('perfil/equipes', [UserController::class, 'minhasEquipes']);
