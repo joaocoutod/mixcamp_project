@@ -43,6 +43,7 @@
         @if(count($membros) > 0)
         <div class="col-sm-8 mt-5 table-responsive-sm">
             <h3>[ Membros ]</h3>
+            <span><i>Regras: Coach = 1 | Titulares = 5 | Reservas = 3</i></span>
             <table class="table text-light table-hove">    
                 <thead>
                     <tr>
@@ -60,8 +61,10 @@
                     @foreach($membros as $key => $membro)
                         @if($membro->id_equipe == $team->id)
                         
-                        @if($membro->funcao == 'Reserva' or $membro->funcao == 'Coach')
+                        @if($membro->funcao == 'Coach' or $membro->funcao == 'Membro')
                         <tr>
+                        @elseif($membro->funcao == 'Reserva')
+                        <tr class="table-light">
                         @else
                         <tr class="table-success">
                         @endif
@@ -100,7 +103,7 @@
                                             <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nick</button>
                                         </form>
 
-                                        <!-- FUNCAO 
+                                        <!-- FUNCAO -->
                                         <form action="POST" action="">
                                             @csrf
                                             <div class="col-sm-12 mb-3">
@@ -110,9 +113,15 @@
 
                                                         @if(//VALIDA SE É PRA EXIBIR FUNÇÃO
                                                             ($funcoes[$i] == 'Capitão' && $exibirCapitao == false) 
-                                                            OR ($funcoes[$i] == 'Coach' && $exibirCoach == false)
-                                                            
-                                                            OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false))
+                                                                OR ($funcoes[$i] == 'Coach' && $exibirCoach == false)
+                                                                
+                                                                OR ($funcoes[$i] == 'Awper' && $exibirTitulares == false)
+                                                                OR ($funcoes[$i] == 'Entry Fragger' && $exibirTitulares == false)
+                                                                OR ($funcoes[$i] == 'Suporte' && $exibirTitulares == false)
+                                                                OR ($funcoes[$i] == 'Lurker' && $exibirTitulares == false)
+
+                                                                OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false)
+                                                            )
                                                             @if($funcoes[$i] == $membro->funcao)
                                                                 <option value="{{$funcoes[$i]}}" selected class="text-danger">{{$funcoes[$i]}}</option>
                                                             @else
@@ -127,13 +136,9 @@
                                                     @endfor
                                                 </select>
                                             </div>
-                                            @if($exibirFuncoes)
-                                                <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Função</button>
-                                            @else
-                                                <button class="w-100 my-3 btn btn-lg btn-warning" disabled type="submit">Alterar Função</button>
-                                            @endif
+                                            
+                                                <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Função</button>           
                                         </form>
-                                        -->
 
                                         <!-- LINKSTEAM -->
                                         <form method="POST" action="/equipe/membro/alterarlinksteam">
@@ -352,11 +357,11 @@
 
                                     OR ($funcoes[$i] == 'Awper' && $exibirTitulares == false)
                                     OR ($funcoes[$i] == 'Entry Fragger' && $exibirTitulares == false)
-                                    OR ($funcoes[$i] == 'Baiter' && $exibirTitulares == false)
                                     OR ($funcoes[$i] == 'Suporte' && $exibirTitulares == false)
                                     OR ($funcoes[$i] == 'Lurker' && $exibirTitulares == false)
-                                    
-                                    OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false))
+
+                                    OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false)
+                                )
                                     <option value="{{$funcoes[$i]}}" disabled class="text-danger">{{$funcoes[$i]}}</option>
                                 @else
                                     <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>

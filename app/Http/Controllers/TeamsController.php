@@ -33,6 +33,7 @@ class TeamsController extends Controller
         if($team){
             //BUSCA MEMBROS DA EQUIPE
             $membros = Membros::where('id_equipe', $id)
+                    ->orderByRaw("CASE WHEN funcao='Membro' THEN 1 ELSE 0 END")
                     ->orderByRaw("CASE WHEN funcao='Reserva' THEN 1 ELSE 0 END")
                     ->orderByRaw("CASE WHEN funcao='Coach' THEN 0 ELSE 1 END")
                     ->orderByRaw("CASE WHEN funcao='Capitão' THEN 0 ELSE 1 END")
@@ -46,9 +47,9 @@ class TeamsController extends Controller
                 'Coach',
                 'Awper',
                 'Entry Fragger',
-                'Baiter',
                 'Suporte',
                 'Lurker',
+                'Membro',
                 'Reserva'
             ];
 
@@ -63,7 +64,7 @@ class TeamsController extends Controller
             $exibirCoach = count($qtdCoach) > 0 ? false : true;//SE JA EXISTIR COACH NAO EXIBE A FUNCAO
 
             //LIMITE DE MEMBROS TITULARES = 5 (capitao, player1, player2, player3, player4)
-            $titulares = Membros::where('id_equipe', $id)->whereNotIn('funcao', ['Coach', 'Reserva'])->get();
+            $titulares = Membros::where('id_equipe', $id)->whereNotIn('funcao', ['Coach', 'Reserva', 'Membro'])->get();
             $exibirTitulares = count($titulares) > 4 ? false : true;
 
             //LIMITE DE RESERVAS
@@ -72,10 +73,8 @@ class TeamsController extends Controller
 
 
             //VERIFICA SE TODOS AS FUNCOES NAO É PRA EXIBIR
-            $exibirFuncoes = true;
-            if(($exibirCapitao == false) && ($exibirCoach == false) && ($exibirReservas) == false && ($exibirTitulares == false)){
-                $exibirFuncoes = false;
-            }
+            $reservas = Membros::where('id_equipe', $id)->get();
+            $exibirFuncoes = count($reservas) > 13 ? false : true;
             
             //VALIDA EXIBIÇÃO DE ALGUNS COMPONENTES
             $exibir = false;

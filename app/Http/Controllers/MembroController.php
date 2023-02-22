@@ -46,8 +46,8 @@ class MembroController extends Controller
         }
 
         //LIMITE DE MEMBROS TITULARES = 5 (capitao, player1, player2, player3, player4)
-        if($request->funcao != 'Coach' || $request->funcao != 'Reservas'){
-            $titulares = Membros::where('id_equipe', $request->id_equipe)->whereNotIn('funcao', ['Coach', 'Reserva'])->get();
+        if($request->funcao != 'Coach' || $request->funcao != 'Reservas' || $request->funcao != 'Membro'){
+            $titulares = Membros::where('id_equipe', $request->id_equipe)->whereNotIn('funcao', ['Coach', 'Reserva', 'Membro'])->get();
             if(count($titulares) > 5){
                 return back()->with('error', "So pode adicionar 5 membros titulares");
             }
