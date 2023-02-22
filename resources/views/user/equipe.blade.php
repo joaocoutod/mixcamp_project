@@ -24,18 +24,34 @@
     @if($exibir)
         <div class="text-center">
             <a class="btn btn-warning  m-1" data-bs-toggle="modal" data-bs-target="#editarTeam{{$team->id}}" href="#">Configuração de time </a>
-            <a href="#" class="btn btn-outline-warning m-2">
+            <button id="copyButton" class="btn btn-outline-warning  ">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                     <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
                 </svg>
-            </a>
+            </button>
         </div>
     @endif
 </div>
 
 
+@if(Auth::check() == false)
+<div class="container">
+    <div class="midia-social py-2">
+        <div class="row g-3 justify-content-center text-center">
 
+            <div class="col-sm-3">
+                <button id="copyButton" class="btn btn-outline-warning  mb-3">
+                    Compartilhar Equipe
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                        <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+                    </svg>
+                </button>
+            </div>
 
+        </div>
+    </div>
+</div>
+@endif
 
 <!-- LISTA DE MEMBROS -->
 <div class="container-fluid text-light text-center">
@@ -43,8 +59,10 @@
         @if(count($membros) > 0)
         <div class="col-sm-8 mt-5 table-responsive-sm">
             <h3>[ Membros ]</h3>
+            @if(Auth::check() == true)
             <span><i>Regras: Coach = 1 | Titulares = 5 | Reservas = 3</i></span>
-            <table class="table text-light table-hove">    
+            @endif
+            <table class="table text-light table-hove mt-3">    
                 <thead>
                     <tr>
                         <!--<th scope="col">#</th>-->
@@ -76,7 +94,12 @@
                             @if($exibir)
                             <td class="p-1 text-center">
                                 <div class="text-center">
-                                    <a data-bs-toggle="modal" data-bs-target="#verMembro{{$membro->id}}" class="btn btn-success m-1" href="#"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Ver</a>
+                                    <a data-bs-toggle="modal" data-bs-target="#verMembro{{$membro->id}}" class="btn btn-success m-1" href="#"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                        </svg>
+                                    </a>
                                 </div>
                             </td>
                             @endif
@@ -92,78 +115,87 @@
                                     </div>
                                     <div class="modal-body text-dark text-light">
                                         <!-- NOME -->
-                                        <form method="POST" action="/equipe/membro/alterarnick">
-                                            @csrf
-                                            <input type="hidden" name="id_membro" value="{{$membro->id}}">
-                                            <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
-                                            <div class="col-sm-12">
-                                                <label for="nick">Nick <span class="text-danger">*</span></label>
-                                                <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" placeholder="{{$membro->nick}}" aria-label=".form-control-lg" autofocus required>
-                                            </div>
-                                            <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nick</button>
-                                        </form>
+                                        <div class="mb-5">
+                                            <form method="POST" action="/equipe/membro/alterarnick">
+                                                @csrf
+                                                <input type="hidden" name="id_membro" value="{{$membro->id}}">
+                                                <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
+                                                <div class="col-sm-12">
+                                                    <label for="nick">Nick <span class="text-danger">*</span></label>
+                                                    <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" value="{{$membro->nick}}" aria-label=".form-control-lg" autofocus required>
+                                                </div>
+                                                <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Nick</button>
+                                            </form>
+                                        </div>
+
 
                                         <!-- FUNCAO -->
-                                        <form action="POST" action="">
-                                            @csrf
-                                            <div class="col-sm-12 mb-3">
-                                                <label for="funcao">Função <span class="text-danger">*</span></label>
-                                                <select name="funcao" id="funcao" class="form-control " autofocus required>
-                                                    @for($i = 0; $i < count($funcoes); $i++)
+                                        <div class="mb-5">
+                                            <form action="POST" action="">
+                                                @csrf
+                                                <div class="col-sm-12">
+                                                    <label for="funcao">Função <span class="text-danger">*</span></label>
+                                                    <select name="funcao" id="funcao" class="form-control " autofocus required>
+                                                        @for($i = 0; $i < count($funcoes); $i++)
 
-                                                        @if(//VALIDA SE É PRA EXIBIR FUNÇÃO
-                                                            ($funcoes[$i] == 'Capitão' && $exibirCapitao == false) 
-                                                                OR ($funcoes[$i] == 'Coach' && $exibirCoach == false)
-                                                                
-                                                                OR ($funcoes[$i] == 'Awper' && $exibirTitulares == false)
-                                                                OR ($funcoes[$i] == 'Entry Fragger' && $exibirTitulares == false)
-                                                                OR ($funcoes[$i] == 'Suporte' && $exibirTitulares == false)
-                                                                OR ($funcoes[$i] == 'Lurker' && $exibirTitulares == false)
+                                                            @if(//VALIDA SE É PRA EXIBIR FUNÇÃO
+                                                                ($funcoes[$i] == 'Capitão' && $exibirCapitao == false) 
+                                                                    OR ($funcoes[$i] == 'Coach' && $exibirCoach == false)
+                                                                    
+                                                                    OR ($funcoes[$i] == 'Awper' && $exibirTitulares == false)
+                                                                    OR ($funcoes[$i] == 'Entry Fragger' && $exibirTitulares == false)
+                                                                    OR ($funcoes[$i] == 'Suporte' && $exibirTitulares == false)
+                                                                    OR ($funcoes[$i] == 'Lurker' && $exibirTitulares == false)
 
-                                                                OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false)
-                                                            )
-                                                            @if($funcoes[$i] == $membro->funcao)
-                                                                <option value="{{$funcoes[$i]}}" selected class="text-danger">{{$funcoes[$i]}}</option>
+                                                                    OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false)
+                                                                )
+                                                                @if($funcoes[$i] == $membro->funcao)
+                                                                    <option value="{{$funcoes[$i]}}" selected class="text-danger">{{$funcoes[$i]}}</option>
+                                                                @else
+                                                                    <option value="{{$funcoes[$i]}}" disabled class="text-danger">{{$funcoes[$i]}}</option>
+                                                                @endif
+                                                            @elseif($funcoes[$i] == $membro->funcao)
+                                                                <option value="{{$funcoes[$i]}}" selected>{{$funcoes[$i]}}</option>
                                                             @else
-                                                                <option value="{{$funcoes[$i]}}" disabled class="text-danger">{{$funcoes[$i]}}</option>
+                                                                <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>
                                                             @endif
-                                                        @elseif($funcoes[$i] == $membro->funcao)
-                                                            <option value="{{$funcoes[$i]}}" selected>{{$funcoes[$i]}}</option>
-                                                        @else
-                                                            <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>
-                                                        @endif
 
-                                                    @endfor
-                                                </select>
-                                            </div>
-                                            
-                                                <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Função</button>           
-                                        </form>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                                
+                                                    <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Função</button>           
+                                            </form>
+                                        </div>
+                                        
 
                                         <!-- LINKSTEAM -->
-                                        <form method="POST" action="/equipe/membro/alterarlinksteam">
-                                            @csrf
-                                            <input type="hidden" name="id_equipe" value="{{$membro->id}}">
-                                            <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
-                                            <div class="col-sm-12">
-                                                <label for="linksteam">Link steam <span class="text-danger">*</span></label>
-                                                <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" placeholder="{{$membro->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
-                                            </div>
-                                            <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Steam</button>
-                                        </form>
+                                        <div class="mb-5">
+                                            <form method="POST" action="/equipe/membro/alterarlinksteam">
+                                                @csrf
+                                                <input type="hidden" name="id_equipe" value="{{$membro->id}}">
+                                                <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
+                                                <div class="col-sm-12">
+                                                    <label for="linksteam">Link steam <span class="text-danger">*</span></label>
+                                                    <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" value="{{$membro->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                                                </div>
+                                                <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Link Steam</button>
+                                            </form>
+                                        </div>
 
                                          <!-- LINKFACEIT -->
-                                         <form method="POST" action="/equipe/membro/alterarlinkfaceit">
-                                            @csrf
-                                            <input type="hidden" name="id_equipe" value="{{$membro->id}}">
-                                            <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
-                                            <div class="col-sm-12">
-                                                <label for="linkfaceit">Link faceit <span class="text-danger">*</span></label>
-                                                <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" placeholder="{{$membro->link_faceit}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
-                                            </div>
-                                            <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Faceit</button>
-                                        </form>
-
+                                        <div class="mb-5">
+                                            <form method="POST" action="/equipe/membro/alterarlinkfaceit">
+                                                @csrf
+                                                <input type="hidden" name="id_equipe" value="{{$membro->id}}">
+                                                <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
+                                                <div class="col-sm-12">
+                                                    <label for="linkfaceit">Link faceit <span class="text-danger">*</span></label>
+                                                    <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" value="{{$membro->link_faceit}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                                                </div>
+                                                <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Link Faceit</button>
+                                            </form>
+                                        </div>
 
                                         <div class="col-sm-12">
                                             <button class="w-100 my-3 btn btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#deletarMembro{{$membro->id}}" class="btn btn-success m-1">Deletar Membro</button>
@@ -339,7 +371,13 @@
                 <form method="POST" action="/equipe/membro/create">
                     @csrf
                     
-                    <input type="hidden" name="id_equipe" value="{{$team->id}}">
+                    <input type="hidden" id="id_equipe" name="id_equipe" value="{{$team->id}}">
+
+                    @if(Auth::check() == true)
+                        <input type="hidden" id="authcheck" value="1">
+                    @else
+                        <input type="hidden" id="authcheck" value="0">                                        
+                    @endif
                     
                     <div class="col-sm-12 mb-3 ">
                         <label for="nick" class="text-left">Nick <span class="text-danger">*</span></label>
@@ -400,5 +438,29 @@
         var output = document.getElementById('output');
         output.src = URL.createObjectURL(event.target.files[0]);
     }
+
+    document.getElementById("copyButton").addEventListener("click", function() {
+        var idperfil = document.getElementById('id_equipe').value;
+        var url = 'http://127.0.0.1:8000/equipes/'+idperfil;
+
+        var authcheck = document.getElementById('authcheck').value;
+
+        navigator.clipboard.writeText(url);
+        var copyButton = document.getElementById("copyButton");
+        copyButton.innerText = "Link Copiado!";
+
+        if(authcheck == 1){
+            setTimeout(function() {
+                copyButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>';
+            }, 2000);
+        }else{
+            setTimeout(function() {
+                copyButton.innerHTML = 'Compartilhar Perfil <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>';
+            }, 2000);
+        }
+        
+    });
+
+    
 </script>
 @endsection
