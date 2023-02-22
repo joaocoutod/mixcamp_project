@@ -34,7 +34,7 @@ class UserController extends Controller
         $user = User::where('id', $request->id_user)->First();
 
         if(file_exists("/img/users/logo/$user->foto")){
-            $path = storage_path("/img/users/logo/$equipe->logo"); 
+            $path = storage_path("/img/users/logo/$user->logo"); 
             File::delete($path);//apaga foto antiga 
         }
 
