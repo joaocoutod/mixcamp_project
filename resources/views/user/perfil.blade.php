@@ -15,7 +15,6 @@
                 {{ session('error') }}
             </div>
         @endif
-        
         <div class="profile pt-5">
             <img src="/img/users/logo/{{$user->foto}}" width="200" height="200" class="rounded-circle py-2">
             
@@ -42,7 +41,7 @@
             <div class="midia-social py-4">
                 <div class="row g-3 justify-content-center">
 
-                    <div class="col-sm-3">
+                    <div class="col-md-3">
                         @if(Auth::check() == false)
                         <button id="copyButton" class="btn btn-outline-warning w-100 btn-lg mb-3">
                             Compartilhar Perfil
@@ -130,7 +129,7 @@
                         <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">
                             <label for="nick">Nick <span class="text-danger">* (esse é o nick de login)</span></label>
-                            <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" placeholder="{{$user->nick}}" aria-label=".form-control-lg" autofocus required>
+                            <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" value="{{$user->nick}}" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Nick</button>
                     </form>
@@ -141,7 +140,7 @@
                         <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">
                             <label for="linksteam">Link steam <span class="text-danger">*</span></label>
-                            <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" placeholder="{{$user->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                            <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" value="{{$user->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Steam</button>
                     </form>
@@ -152,7 +151,7 @@
                         <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">
                             <label for="linkfaceit">Link faceit <span class="text-danger">*</span></label>
-                            <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" placeholder="{{$user->link_faceit}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                            <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" value="{{$user->link_faceit}}"  pattern="https://www.faceit.com/.*" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Link Faceit</button>
                     </form>
@@ -168,11 +167,11 @@
                         </div>
                         <div class="col-sm-12 pb-2">
                             <label for="novasenha">Nova Senha<span class="text-danger">*</span></label>
-                            <input id="novasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="novasenha" type="password" placeholder="******" aria-label=".form-control-lg" autofocus required>
+                            <input id="novasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="senhanova" type="text" placeholder="******" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <div class="col-sm-12 pb-2">
                             <label for="confnovasenha">Confirme a nova senha<span class="text-danger">*</span></label>
-                            <input id="confnovasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="confnovasenha" type="password" placeholder="******" aria-label=".form-control-lg" autofocus required>
+                            <input id="confnovasenha" minlength="2" maxlength="10" class="form-control form-control-lg" name="confnovasenha" type="text" placeholder="******" aria-label=".form-control-lg" autofocus required>
                         </div>
                         <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Alterar Senha</button>
                     </form>

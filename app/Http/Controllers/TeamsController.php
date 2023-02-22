@@ -109,13 +109,13 @@ class TeamsController extends Controller
     //CREATE EQUIPE
     public function createEquipe(Request $request){
 
-        //verify tamanho do nome
+        //verify tamanho do nick
         if (strlen($request->nome) > 15) {
-            return back()->with('error', "O nome da equipe que foi inserido excede o maximo de caracteres!");
+            return back()->with('error', "O nome que foi inserido estar muito grande!");
         }
-        //verify tamanho do nome
+        //verify tamanho do nick
         if (strlen($request->nome) < 2) {
-            return back()->with('error', "O nome da equipe que foi inserido é curto!");
+            return back()->with('error', "O nome que foi inserido estar muito curto!");
         }
 
          //verify NOME
@@ -196,6 +196,15 @@ class TeamsController extends Controller
         
         if (Teams::where('nome', $request->nome)->First()) {
             return back()->with('error', 'O nome de equipe ('.$request->nome.') ja existe!');
+        }
+
+         //verify tamanho do nome
+         if (strlen($request->nome) > 15) {
+            return back()->with('error', "O nome que foi inserido estar muito grande!");
+        }
+        //verify tamanho do nome
+        if (strlen($request->nome) < 2) {
+            return back()->with('error', "O nome que foi inserido estar muito curto!");
         }
 
         $upd_nome = Teams::where('id', $request->id_equipe)

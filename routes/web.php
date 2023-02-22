@@ -39,6 +39,7 @@ Route::post('/user/alterar/alterarlogo', [UserController::class, 'alterarLogo'])
 Route::post('/user/alterar/alterarnick', [UserController::class, 'alterarNick']);
 Route::post('/user/alterar/alterarlinksteam', [UserController::class, 'alterarlinkSteam']);
 Route::post('/user/alterar/alterarlinkfaceit', [UserController::class, 'alterarlinkFaceit']);
+Route::post('/user/alterar/alterarsenha', [UserController::class, 'alterarSenha']);
 
 //VER MINHAS EQUIPES
 Route::get('perfil/equipes', [UserController::class, 'minhasEquipes']);
