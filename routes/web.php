@@ -76,7 +76,7 @@ Route::post('/equipe/membro/create', [MembroController::class, 'createMembro']);
 
 //EDITAR EQUIPES
 Route::post('/equipe/membro/alterarnick', [MembroController::class, 'alterarNick']);
-//Route::post('/equipe/membro/alterarfuncao', [MembroController::class, 'alterarFuncao']);
+Route::post('/equipe/membro/alterarfuncao', [MembroController::class, 'alterarFuncao']);
 Route::post('/equipe/membro/alterarlinksteam', [MembroController::class, 'alterarLinksteam']);
 Route::post('/equipe/membro/alterarlinkfaceit', [MembroController::class, 'alterarLinkfaceit']);
 

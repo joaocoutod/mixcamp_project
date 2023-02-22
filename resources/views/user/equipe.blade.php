@@ -131,8 +131,9 @@
 
                                         <!-- FUNCAO -->
                                         <div class="mb-5">
-                                            <form action="POST" action="">
+                                            <form method="POST" action="/equipe/membro/alterarfuncao">
                                                 @csrf
+                                                <input type="hidden" name="id_membro" value="{{$membro->id}}">
                                                 <div class="col-sm-12">
                                                     <label for="funcao">Função <span class="text-danger">*</span></label>
                                                     <select name="funcao" id="funcao" class="form-control " autofocus required>

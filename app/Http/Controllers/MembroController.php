@@ -88,6 +88,9 @@ class MembroController extends Controller
 
     }
 
+
+
+    //ALTERAR NICK
     public function alterarNick(Request $request){
 
         //verify tamanho do nick
@@ -118,6 +121,22 @@ class MembroController extends Controller
 
     }
 
+    //ALTERAR FUNCAO
+    public function alterarFuncao(Request $request){
+        $membro = Membros::where('id', $request->id_membro)->First();
+        $upd_funcao = Membros::where('id', $request->id_membro)
+                            ->update([
+                                'funcao' => $request->funcao
+                            ]);
+                            
+        if($upd_funcao){
+            return back()->with('success', "A função do membro [$membro->nick] foi alterado para [$request->funcao]!");
+        }else {
+            return back()->with('error', "Error ao alterar função do membro [$membro->nick]");
+        }
+    }
+
+    //ALTERAR LINK STEAM
     public function alterarLinksteam(Request $request){
         //verify uso de link steam
         if (Membros::where('link_steam', $request->link_steam)->First()) {
@@ -135,6 +154,7 @@ class MembroController extends Controller
         }
     }
 
+    //ALTERAR LINK FACEIT
     public function alterarLinkfaceit(Request $request){
         //verify uso de link faceit
         if (Membros::where('link_faceit', $request->link_faceit)->First()) {
@@ -153,6 +173,10 @@ class MembroController extends Controller
     }
 
 
+
+
+
+    //DELETAR MEMBRO
     public function deletarMembro($id_membro, $id_equipe){
 
         if(Auth::check() == false){
