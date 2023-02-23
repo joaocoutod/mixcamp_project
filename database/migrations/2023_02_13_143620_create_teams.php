@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_dono');
+            $table->string('id_dono');
             $table->text('logo');
             $table->string('nome');
             $table->string('tag');

@@ -24,13 +24,17 @@ $(document).ready(function() {
           // Exibe os resultados da pesquisa em cards
           response.forEach(function(result) {
               var col = $('<div>', { class: 'col' });
-              var card = $('<div>', { class: 'card card-cover overflow-hidden bg-light rounded-4 shadow-lg ' });
-              var cardBody = $('<div>', { class: 'body-content d-flex flex-column  p-5 pb-5 text-dark text-shadow-1 text-center align-items-center' });
-              var nome_equipe = $('<h3>', { class: 'nome-equipe display-6 fw-bold ', text: result.nome });
-              var qtd_membros = $('<p>', { class: 'qtd-membros mb-2 fs-5 fw-bold', text: 'Membros: '+result.qtd_membros });
+              var card = $('<div>', { class: 'card card-cover overflow-hidden bg-dark rounded-4 shadow-lg border' });
+              var cardBody = $('<div>', { class: 'body-content d-flex flex-column  p-5 pb-5 text-light text-shadow-1 text-center align-items-center' });
+              var img_equipe = $('<img>', { class: 'rounded-circle py-2',
+                                          src: '/img/teams/logo/'+result.logo,
+                                          width: '200', 
+                                          height: '200'
+                                        });  
+              var nome_equipe = $('<h3>', { class: 'nome-equipe display-6 fw-bold py-3', text: result.nome });
               var ver_equipe = $('<a>', {class: 'ver-equipes btn btn-primary', href: '/equipes/'+result.id, text: 'Ver Equipe'});
   
-              cardBody.append(nome_equipe, qtd_membros, ver_equipe);
+              cardBody.append(img_equipe, nome_equipe, ver_equipe);
               card.append(cardBody);
               col.append(card);
   

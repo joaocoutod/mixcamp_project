@@ -78,7 +78,7 @@
                 </tbody>
             </table>
             @if($criarEquipe != false)
-            <div class="text-center py-5">
+            <div class="text-center">
                 <a class="btn btn-outline-warning p-3" data-bs-toggle="modal" data-bs-target="#criarEquipe">Criar Equipe</a>
             </div>
             @else
@@ -89,7 +89,7 @@
 
             @else
 
-                <div class="text-center py-5">
+                <div class="text-center py-5 my-5">
                     <h1 class="text-center">Ainda não tem equipes</h1>
                     <a class="btn btn-outline-warning p-3" data-bs-toggle="modal" data-bs-target="#criarEquipe">Criar Equipe</a>
                 </div>
@@ -113,18 +113,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-dark ">
-                <h1 class="text-center">Adicionar Membro</h1>
+                <h1 class="text-center">Adicionar Equipe</h1>
+                <div class="text-center">
+                    <img id="output" width="200" height="200" class="rounded-circle py-2" >
+                </div>
                 <form method="POST" action="/equipe/create" class="ml-1 mt-5" autocomplete="off" enctype="multipart/form-data">
                     @csrf
-
-                    <div class="row justify-content-center text-center">
-                        <div class="col-md-3">
-                            <img id="output" width="200" height="200" class="rounded-circle py-2" >
-                        </div>
-                    </div>
-
                     <div class="row g-3">
-
                         <div class="col-sm-12">
                             <label for="logo">Logo equipe <span class="text-danger">*</span></label>
                             <input id="logo" type="file" accept="image/png, image/gif, image/jpeg" class="form-control" name="logo" onchange="loadfile(event)" autofocus required>

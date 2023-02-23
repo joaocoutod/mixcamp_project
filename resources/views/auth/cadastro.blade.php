@@ -9,7 +9,7 @@
         <a href="/"><img src="/img/logo.png" alt="" width="100" height="100"></a>
     </div>
     
-    <form method="POST" id="login" action="/auth/cadastro" class="ml-1" style="padding-top: 10px;">
+    <form method="POST" id="login" action="/auth/cadastro" class="ml-1" style="padding-top: 10px;" autocomplete="off">
         @csrf
         <h1 class="h3 mb-2 fst-italic fw-normal text-center">Cadastro</h1>
 
