@@ -31,20 +31,6 @@ class TeamsController extends Controller
 
 
 
-
-    //VIEW FORM CRIAR EQUIPE
-     public function viewForm(){
-
-        if(Auth::check() == true){
-            return view('/user/criarEquipe');
-        }else{
-            return redirect('/login');
-        }
-        
-    }
-
-
-
     //VER EQUIPE POR ID
     public function equipeID($id){
 

@@ -54,7 +54,6 @@ Route::get('perfil/equipes', [UserController::class, 'minhasEquipes']);
 /********EQUIPES********/
 
 //CRIAR EQUIPE
-Route::get('/criarequipe', [TeamsController::class, 'viewForm']);
 Route::post('/equipe/create', [TeamsController::class, 'createEquipe']);
 
 

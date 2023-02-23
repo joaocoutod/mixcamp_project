@@ -79,7 +79,7 @@
             </table>
             @if($criarEquipe != false)
             <div class="text-center py-5">
-                <a href="/criarequipe" class="btn btn-outline-warning p-3">Criar Equipe</a>
+                <a class="btn btn-outline-warning p-3" data-bs-toggle="modal" data-bs-target="#criarEquipe">Criar Equipe</a>
             </div>
             @else
             <div class="text-center ">
@@ -91,7 +91,7 @@
 
                 <div class="text-center py-5">
                     <h1 class="text-center">Ainda não tem equipes</h1>
-                    <a href="/criarequipe" class="btn btn-outline-warning p-3">Criar Equipe</a>
+                    <a class="btn btn-outline-warning p-3" data-bs-toggle="modal" data-bs-target="#criarEquipe">Criar Equipe</a>
                 </div>
                 
 
@@ -103,4 +103,59 @@
     </div>
 </div>
 
+
+
+<!-- MODAL CRIAR MEMBRO -->
+<div class="modal fade" id="criarEquipe" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark ">
+                <h1 class="text-center">Adicionar Membro</h1>
+                <form method="POST" action="/equipe/create" class="ml-1 mt-5" autocomplete="off" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="row justify-content-center text-center">
+                        <div class="col-md-3">
+                            <img id="output" width="200" height="200" class="rounded-circle py-2" >
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-sm-12">
+                            <label for="logo">Logo equipe <span class="text-danger">*</span></label>
+                            <input id="logo" type="file" accept="image/png, image/gif, image/jpeg" class="form-control" name="logo" onchange="loadfile(event)" autofocus required>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label for="nome">Nome <span class="text-danger">* max 15 caracteres</span></label>
+                            <input id="nome" minlength="2" maxlength="15" class="form-control form-control-lg" name="nome" type="text" placeholder="nome da equipe" aria-label=".form-control-lg" autofocus required>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <label for="tag">Tag <span class="text-danger">* max 5 caracteres</span></label>
+                            <input id="tag" minlength="2" maxlength="5" class="form-control form-control-lg" name="tag" type="text" placeholder="tag da equipe" aria-label=".form-control-lg" autofocus required>
+                        </div>
+
+                    </div>
+                    <button class="w-100 my-3 btn btn-lg btn-warning" type="submit">Criar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--PREVIEW DE IMAGEM-->
+<script>
+    //PREVIEW DE IMAGEM
+    var loadfile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
 @endsection
