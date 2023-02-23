@@ -35,7 +35,7 @@
 
 @if(Auth::check() == true)
 
-    @if(Auth::user->id != $team->id_dono)
+    @if(Auth::user()->id != $team->id_dono)
     <div class="container">
         <div class="midia-social py-2">
             <div class="row g-3 justify-content-center text-center">

@@ -18,9 +18,10 @@ class UserController extends Controller
     public function indexPerfil($id){
 
         $user = User::where('id', $id)->first();
+        $equipes = Teams::where('id_dono', $id)->get();
 
         if($user){
-            return view('/user/perfil', ['user' => $user]);
+            return view('/user/perfil', ['user' => $user, 'equipes' => $equipes]);
         }else {
             return view('404');
         }
