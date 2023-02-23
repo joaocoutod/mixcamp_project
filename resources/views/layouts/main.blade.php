@@ -6,10 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/img/logo.png">
     <title>@yield('title')</title>
-    <meta name="description" content="Descrição da minha página.">
+    <meta name="description" content="@yield('description')">
     <meta property="og:title" content="@yield('title')">
     <meta property="og:description" content="@yield('description')">
-    <meta property="og:image" content="@yield('image')">
     <meta property="og:url" content="@yield('url')">
     <meta property="og:type" content="website">
 

@@ -78,10 +78,11 @@
 
 </div>
 
-
+<!-- STREAMERS -->
 @if(count($streamers) > 0)
 <div class="container text-light px-4 py-5">
     <h3 class="text-center display-7 fw-normal">Streamers parceiros da MIXCAMP</h3>
+    
     <div class="row justify-content-center text-center">
         @foreach($streamers as $streamer)
         <div class="col-md-3 py-5">
