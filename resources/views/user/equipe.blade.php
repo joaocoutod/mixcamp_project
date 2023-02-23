@@ -91,7 +91,9 @@
         <div class="col-sm-8 mt-5 table-responsive-sm">
             <h3>[ Membros ]</h3>
             @if(Auth::check() == true)
-            <span><i>Regras: Coach = 1 | Titulares = 5 | Reservas = 3</i></span>
+                @if(Auth::user()->id == $team->id_dono)
+                <span><i>Regras: Coach = 1 | Titulares = 5 | Reservas = 3</i></span>
+                @endif
             @endif
             <table class="table text-light table-hove mt-3">    
                 <thead>
