@@ -6,82 +6,62 @@
 
 @section('content')
 
-<div class="container-fluid text-light text-center ">
-    @if(session('success'))
-        <div class="container alert alert-success text-center" role="alert">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="container alert alert-danger text-center" role="alert">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <img src="/img/teams/logo/{{$team->logo}}" width="200" height="200" class="rounded-circle py-2">
-
-    <h2>{{ $team->nome }}</h2>
-
-    @if($exibir)
-        <div class="text-center">
-            <a class="btn btn-warning  m-1" data-bs-toggle="modal" data-bs-target="#editarTeam{{$team->id}}" href="#">Configuração de time </a>
-            <!-- <button id="copyButton" class="btn btn-outline-warning  ">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                    <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
-                </svg>
-            </button> -->
-        </div>
-    @endif
-</div>
-
-@if(Auth::check() == true)
-
-    @if(Auth::user()->id != $team->id_dono)
-    <div class="container">
-        <div class="midia-social py-2">
-            <div class="row g-3 justify-content-center text-center">
-
-                <div class="col-sm-3">
-                    <!-- <button id="copyButton" class="btn btn-outline-warning  mb-3">
-                        Compartilhar Equipe
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                            <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
-                        </svg>
-                    </button> -->
-                    <a href="/user/{{$team->id_dono}}" class="btn btn-primary  mb-3">
-                        Perfil do Dono da Equipe
-                    </a>
-                </div>
-
+    <div class="container-fluid text-light text-center ">
+        @if(session('success'))
+            <div class="container alert alert-success text-center" role="alert">
+                {{ session('success') }}
             </div>
-        </div>
-    </div>
-    @endif
+        @endif
 
-@else 
+        @if(session('error'))
+            <div class="container alert alert-danger text-center" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
 
-<div class="container">
-    <div class="midia-social py-2">
-        <div class="row g-3 justify-content-center text-center">
+        <img src="/img/teams/logo/{{$team->logo}}" width="200" height="200" class="rounded-circle py-2">
+        <h2>{{ $team->nome }}</h2>
 
-            <div class="col-sm-3">
-                <!-- <button id="copyButton" class="btn btn-outline-warning  mb-3">
-                    Compartilhar Equipe
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                        <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
-                    </svg>
-                </button> -->
-                <a href="/user/{{$team->id_dono}}" class="btn btn-primary w-100  mb-3">
-                    Perfil do Dono da Equipe
+        @if($exibir)
+            <div class="text-center">
+                <a class="btn btn-warning  m-1" data-bs-toggle="modal" data-bs-target="#editarTeam{{$team->id}}" href="#">
+                    Configuração de time 
                 </a>
             </div>
-
-        </div>
+        @endif
     </div>
-</div>
 
-@endif
+
+    //
+    @if( (Auth::check() == true) && (Auth::user()->id != $team->id_dono))
+        <div class="container">
+            <div class="midia-social py-2">
+                <div class="row g-3 justify-content-center text-center">
+
+                    <div class="col-sm-3">
+                        <a href="/user/{{$team->id_dono}}" class="btn btn-primary  mb-3">
+                            Perfil do Dono da Equipe
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    @else 
+        <div class="container">
+            <div class="midia-social py-2">
+                <div class="row g-3 justify-content-center text-center">
+
+                    <div class="col-sm-3">
+                        <a href="/user/{{$team->id_dono}}" class="btn btn-primary w-100  mb-3">
+                            Perfil do Dono da Equipe
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    @endif
 
 <!-- LISTA DE MEMBROS -->
 <div class="container-fluid text-light text-center">

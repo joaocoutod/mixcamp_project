@@ -25,7 +25,7 @@
         <h2>{{ $user->nick }}</h2>
     
 
-        <div class="row g-3 justify-content-center pb-5">
+        <div class="row g-3 justify-content-center pb-5 mt-1">
             <div class="col-md-3">
 
                 @if(//VERIFICA SE ESTAR LOGADO E SE É O PERFIL DO USUARIO LOGADO
