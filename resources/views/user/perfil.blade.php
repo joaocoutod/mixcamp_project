@@ -151,7 +151,7 @@
                     </form>
 
                         <!-- LINKFACEIT -->
-                        <form method="POST" action="/user/alterar/alterarlinkfaceit">
+                    <form method="POST" action="/user/alterar/alterarlinkfaceit">
                         @csrf
                         <input type="hidden" name="id_user" value="{{$user->id}}">
                         <div class="col-sm-12">

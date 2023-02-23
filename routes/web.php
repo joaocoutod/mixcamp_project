@@ -12,6 +12,8 @@ use App\http\Controllers\MembroController;
 
 //ROUTES PADRAO
 Route::get('/', [HomeController::class, 'indexHome']);
+Route::get('/equipes', [TeamsController::class, 'indexTimes']);
+Route::get('/busca/equipes', [TeamsController::class, 'buscaEquipes']);
 
 
 

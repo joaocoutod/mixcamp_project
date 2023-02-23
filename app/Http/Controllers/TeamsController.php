@@ -10,19 +10,40 @@ use App\Models\Teams;
 use App\Models\Membros;
 
 class TeamsController extends Controller
-{
+{   
+    //VIEW FORM CRIAR EQUIPE
+    public function indexTimes(){
+        $equipes = Teams::all();
+
+        return view('/equipes', ['equipes' => $equipes]); 
+    }
+
+    public function buscaEquipes(Request $request){ 
+        // Obtém o valor da pesquisa do parâmetro "query"
+        $query = $request->input('query');
+
+        // Realiza a busca no banco de dados e retorna os resultados
+        $results = Teams::where('nome', 'like', '%' . $query . '%')->get();
+
+        // Retorna os resultados em formato JSON
+        return response()->json($results);
+    }
+
+
+
 
     //VIEW FORM CRIAR EQUIPE
-    public function viewForm(){
+     public function viewForm(){
 
         if(Auth::check() == true){
             return view('/user/criarEquipe');
         }else{
             return redirect('/login');
         }
-
+        
     }
-    
+
+
 
     //VER EQUIPE POR ID
     public function equipeID($id){

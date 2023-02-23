@@ -28,7 +28,7 @@
                 <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">Campeonatos</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">Ranking</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Times</a></li>
+                <li><a href="/equipes" class="nav-link px-2 text-white">Times</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">Sobre</a></li>
             </ul>
     
