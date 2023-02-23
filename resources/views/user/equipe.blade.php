@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <div class="container-fluid text-light text-center ">
+    <div class="container-fluid text-light text-center mb-3">
         @if(session('success'))
             <div class="container alert alert-success text-center" role="alert">
                 {{ session('success') }}
@@ -23,17 +23,17 @@
         <h2>{{ $team->nome }}</h2>
 
         @if( (Auth::check() == true) && (Auth::user()->id == $team->id_dono))
-            <div class="row g-3 justify-content-center pb-5 mt-1">
-                <div class="col-sm-3">
-                    <a class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#editarTeam{{$team->id}}" href="#">
+            <div class="row g-3 justify-content-center mb-3 mt-1">
+                <div class="col-sm-2">
+                    <a class="btn btn-warning w-100" data-bs-toggle="modal" data-bs-target="#editarTeam{{$team->id}}" href="#">
                         Configuração de time 
                     </a>
                 </div>
             </div>
         @else 
-            <div class="row g-3 justify-content-center pb-5 mt-1">
-                <div class="col-sm-3">
-                    <a class="btn btn-primary mb-3" href="/user/{{$team->id_dono}}">
+            <div class="row g-3 justify-content-center mb-3 mt-1">
+                <div class="col-sm-2">
+                    <a class="btn btn-primary w-100" href="/user/{{$team->id_dono}}">
                         Perfil do Dono da Equipe
                     </a>
                 </div>
@@ -43,230 +43,224 @@
     </div>
 
 
-    
-
-
-<!-- LISTA DE MEMBROS -->
-<div class="container-fluid text-light text-center">
-    <div class="row g-3  justify-content-center">
-        
-        @if(//VERIFICA SE HÁ MEMBROS PARA EXIBIR
-            count($membros) > 0)
-            
-        <div class="col-sm-8 mt-5 table-responsive-sm">
+    <!-- LISTA DE MEMBROS -->
+    @if(//VERIFICA SE HÁ MEMBROS PARA EXIBIR
+    count($membros) > 0)
+    <div class="container-fluid text-light text-center mt-5 mb-3">
+        <div class="row g-3 justify-content-center">
             <h3>[ Membros ]</h3>
 
             @if( //VERIFICA SE ESTAR LOGADO E SE É O PERFIL DO USUARIO LOGADO 
                 (Auth::check() == true) && (Auth::user()->id == $team->id_dono) )
-                <span><i>Regras: Coach = 1 | Titulares = 5 | Reservas = 3</i></span>
+                <span class="text-white-50 mt-0"><i>Regras: Coach = 1 | Titulares = 5 | Reservas = 3</i></span>
             @endif
-            
-            <table class="table text-light table-hove mt-3">    
-                <thead>
-                    <tr>
-                        <!--<th scope="col">#</th>-->
-                        <th scope="col">Nick</th>
-                        <th scope="col">Função</th>
-                        <th scope="col">Steam</th>
-                        <th scope="col">Faceit</th>
-                        @if($authVer)
-                        <th></th>
-                        @endif
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($membros as $key => $membro)
-                        @if($membro->id_equipe == $team->id)
-                        
-                            @if($membro->funcao == 'Coach' or $membro->funcao == 'Membro')
-                            <tr>
-                            @elseif($membro->funcao == 'Reserva')
-                            <tr class="table-light">
-                            @else
-                            <tr class="table-success">
+
+
+            <div class="col-sm-8 table-responsive-sm">
+                <table class="table text-light border">    
+                    <thead>
+                        <tr>
+                            <!--<th scope="col">#</th>-->
+                            <th scope="col">Nick</th>
+                            <th scope="col">Função</th>
+                            <th scope="col">Steam</th>
+                            <th scope="col">Faceit</th>
+                            @if($authVer)
+                            <th></th>
                             @endif
-                                <!--<th scope="row">{{ $key + 1 }}</th>-->
-                                <td>{{$membro->nick}}</td>
-                                <td>{{$membro->funcao}}</td>
-                                <td class="p-2">
-                                    <a href="{{$membro->link_steam}}" class="btn btn-primary" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                        Steam
-                                    </a>
-                                </td>
-                                <td class="p-2">
-                                    <a href="{{$membro->link_faceit}}" class="btn btn-warning" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                        Faceit
-                                    </a>
-                                </td>
-                                
-                                @if($authVer)
-                                    <td class="p-1 text-center">
-                                        <div class="text-center">
-                                            <a data-bs-toggle="modal" data-bs-target="#verMembro{{$membro->id}}" class="btn btn-success m-1" href="#"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                                </svg>
-                                            </a>
-                                        </div>
-                                    </td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($membros as $key => $membro)
+                            @if($membro->id_equipe == $team->id)
+                            
+                                @if($membro->funcao == 'Coach' or $membro->funcao == 'Membro')
+                                <tr>
+                                @elseif($membro->funcao == 'Reserva')
+                                <tr class="table-light">
+                                @else
+                                <tr class="table-success">
                                 @endif
-                            </tr>
+                                    <!--<th scope="row">{{ $key + 1 }}</th>-->
+                                    <td>{{$membro->nick}}</td>
+                                    <td>{{$membro->funcao}}</td>
+                                    <td class="p-2">
+                                        <a href="{{$membro->link_steam}}" class="btn btn-primary" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                            Steam
+                                        </a>
+                                    </td>
+                                    <td class="p-2">
+                                        <a href="{{$membro->link_faceit}}" class="btn btn-warning" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                            Faceit
+                                        </a>
+                                    </td>
+                                    
+                                    @if($authVer)
+                                        <td class="p-1 text-center">
+                                            <div class="text-center">
+                                                <a data-bs-toggle="modal" data-bs-target="#verMembro{{$membro->id}}" class="btn btn-success m-1" href="#"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    @endif
+                                </tr>
 
-
-                        <!-- MODAL EDITAR MEMBRO -->
-                        <div class="modal fade" id="verMembro{{$membro->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header border-0">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body text-dark text-light">
-                                        <!-- NOME -->
-                                        <div class="mb-5">
-                                            <form method="POST" action="/equipe/membro/alterarnick">
-                                                @csrf
-                                                <input type="hidden" name="id_membro" value="{{$membro->id}}">
-                                                <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
-                                                <div class="col-sm-12">
-                                                    <label for="nick">Nick <span class="text-danger">*</span></label>
-                                                    <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" value="{{$membro->nick}}" aria-label=".form-control-lg" autofocus required>
+                                <!-- MODAL EDITAR MEMBRO -->
+                                <div class="modal fade" id="verMembro{{$membro->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header border-0">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-dark text-light">
+                                                
+                                                <!-- NOME -->
+                                                <div class="mb-5">
+                                                    <form method="POST" action="/equipe/membro/alterarnick">
+                                                        @csrf
+                                                        <input type="hidden" name="id_membro" value="{{$membro->id}}">
+                                                        <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
+                                                        <div class="col-sm-12">
+                                                            <label for="nick">Nick <span class="text-danger">*</span></label>
+                                                            <input id="nick" minlength="2" maxlength="15" class="form-control form-control-lg" name="nick" type="text" value="{{$membro->nick}}" aria-label=".form-control-lg" autofocus required>
+                                                        </div>
+                                                        <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Nick</button>
+                                                    </form>
                                                 </div>
-                                                <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Nick</button>
-                                            </form>
-                                        </div>
 
 
-                                        <!-- FUNCAO -->
-                                        <div class="mb-5">
-                                            <form method="POST" action="/equipe/membro/alterarfuncao">
-                                                @csrf
-                                                <input type="hidden" name="id_membro" value="{{$membro->id}}">
-                                                <div class="col-sm-12">
-                                                    <label for="funcao">Função <span class="text-danger">*</span></label>
-                                                    <select name="funcao" id="funcao" class="form-control " autofocus required>
-                                                        @for($i = 0; $i < count($funcoes); $i++)
+                                                <!-- FUNCAO -->
+                                                <div class="mb-5">
+                                                    <form method="POST" action="/equipe/membro/alterarfuncao">
+                                                        @csrf
+                                                        <input type="hidden" name="id_membro" value="{{$membro->id}}">
+                                                        <div class="col-sm-12">
+                                                            <label for="funcao">Função <span class="text-danger">*</span></label>
+                                                            <select name="funcao" id="funcao" class="form-control " autofocus required>
+                                                                @for($i = 0; $i < count($funcoes); $i++)
 
-                                                            @if(//VALIDA SE É PRA EXIBIR FUNÇÃO
-                                                                ($funcoes[$i] == 'Capitão' && $exibirCapitao == false) 
-                                                                    OR ($funcoes[$i] == 'Coach' && $exibirCoach == false)
-                                                                    
-                                                                    OR ($funcoes[$i] == 'Awper' && $exibirTitulares == false)
-                                                                    OR ($funcoes[$i] == 'Entry Fragger' && $exibirTitulares == false)
-                                                                    OR ($funcoes[$i] == 'Suporte' && $exibirTitulares == false)
-                                                                    OR ($funcoes[$i] == 'Lurker' && $exibirTitulares == false)
+                                                                    @if(//VALIDA SE É PRA EXIBIR FUNÇÃO
+                                                                        ($funcoes[$i] == 'Capitão' && $exibirCapitao == false) 
+                                                                            OR ($funcoes[$i] == 'Coach' && $exibirCoach == false)
+                                                                            
+                                                                            OR ($funcoes[$i] == 'Awper' && $exibirTitulares == false)
+                                                                            OR ($funcoes[$i] == 'Entry Fragger' && $exibirTitulares == false)
+                                                                            OR ($funcoes[$i] == 'Suporte' && $exibirTitulares == false)
+                                                                            OR ($funcoes[$i] == 'Lurker' && $exibirTitulares == false)
 
-                                                                    OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false)
-                                                                )
-                                                                @if($funcoes[$i] == $membro->funcao)
-                                                                    <option value="{{$funcoes[$i]}}" selected class="text-danger">{{$funcoes[$i]}}</option>
-                                                                @else
-                                                                    <option value="{{$funcoes[$i]}}" disabled class="text-danger">{{$funcoes[$i]}}</option>
-                                                                @endif
-                                                            @elseif($funcoes[$i] == $membro->funcao)
-                                                                <option value="{{$funcoes[$i]}}" selected>{{$funcoes[$i]}}</option>
-                                                            @else
-                                                                <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>
-                                                            @endif
+                                                                            OR ($funcoes[$i] == 'Reserva' && $exibirReservas == false)
+                                                                        )
+                                                                        @if($funcoes[$i] == $membro->funcao)
+                                                                            <option value="{{$funcoes[$i]}}" selected class="text-danger">{{$funcoes[$i]}}</option>
+                                                                        @else
+                                                                            <option value="{{$funcoes[$i]}}" disabled class="text-danger">{{$funcoes[$i]}}</option>
+                                                                        @endif
+                                                                    @elseif($funcoes[$i] == $membro->funcao)
+                                                                        <option value="{{$funcoes[$i]}}" selected>{{$funcoes[$i]}}</option>
+                                                                    @else
+                                                                        <option value="{{$funcoes[$i]}}">{{$funcoes[$i]}}</option>
+                                                                    @endif
 
-                                                        @endfor
-                                                    </select>
+                                                                @endfor
+                                                            </select>
+                                                        </div>
+                                                        
+                                                            <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Função</button>           
+                                                    </form>
                                                 </div>
                                                 
-                                                    <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Função</button>           
-                                            </form>
-                                        </div>
-                                        
 
-                                        <!-- LINKSTEAM -->
-                                        <div class="mb-5">
-                                            <form method="POST" action="/equipe/membro/alterarlinksteam">
-                                                @csrf
-                                                <input type="hidden" name="id_equipe" value="{{$membro->id}}">
-                                                <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
-                                                <div class="col-sm-12">
-                                                    <label for="linksteam">Link steam <span class="text-danger">*</span></label>
-                                                    <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" value="{{$membro->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                                                <!-- LINKSTEAM -->
+                                                <div class="mb-5">
+                                                    <form method="POST" action="/equipe/membro/alterarlinksteam">
+                                                        @csrf
+                                                        <input type="hidden" name="id_equipe" value="{{$membro->id}}">
+                                                        <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
+                                                        <div class="col-sm-12">
+                                                            <label for="linksteam">Link steam <span class="text-danger">*</span></label>
+                                                            <input id="linksteam" class="form-control form-control-lg" name="linksteam" type="url" type="url" value="{{$membro->link_steam}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                                                        </div>
+                                                        <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Link Steam</button>
+                                                    </form>
                                                 </div>
-                                                <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Link Steam</button>
-                                            </form>
-                                        </div>
 
-                                         <!-- LINKFACEIT -->
-                                        <div class="mb-5">
-                                            <form method="POST" action="/equipe/membro/alterarlinkfaceit">
-                                                @csrf
-                                                <input type="hidden" name="id_equipe" value="{{$membro->id}}">
-                                                <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
-                                                <div class="col-sm-12">
-                                                    <label for="linkfaceit">Link faceit <span class="text-danger">*</span></label>
-                                                    <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" value="{{$membro->link_faceit}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                                                <!-- LINKFACEIT -->
+                                                <div class="mb-5">
+                                                    <form method="POST" action="/equipe/membro/alterarlinkfaceit">
+                                                        @csrf
+                                                        <input type="hidden" name="id_equipe" value="{{$membro->id}}">
+                                                        <input type="hidden" name="id_equipe" value="{{$membro->id_equipe}}">
+                                                        <div class="col-sm-12">
+                                                            <label for="linkfaceit">Link faceit <span class="text-danger">*</span></label>
+                                                            <input id="linkfaceit" class="form-control form-control-lg" name="linkfaceit" type="url"  type="url" value="{{$membro->link_faceit}}"  pattern="https://steamcommunity.com.*" aria-label=".form-control-lg" autofocus required>
+                                                        </div>
+                                                        <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Link Faceit</button>
+                                                    </form>
                                                 </div>
-                                                <button class="w-100 my-3 btn btn-lg btn-success" type="submit">Alterar Link Faceit</button>
-                                            </form>
-                                        </div>
 
-                                        <div class="col-sm-12">
-                                            <button class="w-100 my-3 btn btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#deletarMembro{{$membro->id}}" class="btn btn-success m-1">Deletar Membro</button>
+                                                <div class="col-sm-12">
+                                                    <button class="w-100 my-3 btn btn btn-danger" type="submit" data-bs-toggle="modal" data-bs-target="#deletarMembro{{$membro->id}}" class="btn btn-success m-1">Deletar Membro</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <!-- MODAL DELETAR Team -->
-                        <div class="modal fade" id="deletarMembro{{$membro->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header border-0">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body text-dark">
-                                        <p>Confirme se deseja deletar o membro <b>{{$membro->nick}}</b></p>
-                                        
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
-                                            <a class="btn btn-danger" href="/equipe/membro/deletar/{{$membro->id}}/{{$team->id}}">Deletar</a>
+                                <!-- MODAL DELETAR Team -->
+                                <div class="modal fade" id="deletarMembro{{$membro->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header border-0">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-dark">
+                                                <p>Confirme se deseja deletar o membro <b>{{$membro->nick}}</b></p>
+                                                
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+                                                    <a class="btn btn-danger" href="/equipe/membro/deletar/{{$membro->id}}/{{$team->id}}">Deletar</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-
-                        @endif
-                    @endforeach
-                </tbody>
-            </table>
-        </div><!-- div table -->
-        @endif
-
-        @if($authVer)
-            @if($exibirFuncoes)
-            <div class="p-3">
-                <div class="justify-content-center">
-                    
-                    <a href="#" class="btn btn-success  btn-lg mb-3" data-bs-toggle="modal" data-bs-target="#addMembro" class="btn btn-danger m-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
-                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                        </svg>
-                        Adicionar Membro
-                    </a>
                 
-                </div>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div><!-- div table -->
+
+        </div> <!-- row -->
+    </div><!-- LISTA DE MEMBROS -->
+    @endif
+    
+
+    @if($authVer && $exibirFuncoes)
+        <!-- BOTAO DE ADICIONAR -->
+        <div class="row g-3 justify-content-center mb-5">
+
+            <div class="col-sm-2">
+                <a href="#" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#addMembro" class="btn btn-danger m-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+                    Adicionar Membro
+                </a>
             </div>
-            @endif
-        @endif
-
-    </div> <!-- row -->
-</div><!-- LISTA DE MEMBROS -->
+            
+        </div>
+    @endif
 
 
 
-
-
-<!-- SOBRE -->
+<!-- SOBRE O TIME [TITULOS E MEMBROS] -->
 <div class="container-fluid text-light text-center ">
     <div class="container p-4" id="custom-cards">
         <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4  justify-content-center">
@@ -302,11 +296,9 @@
 
 
 
+<!-- MODALSSSS -->
 
-
-
-
- <!-- MODAL EDITAR EQUIPE -->
+<!-- MODAL EDITAR EQUIPE -->
  <div class="modal fade" id="editarTeam{{$team->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -362,12 +354,7 @@
     </div>
 </div>
 
-
-
-
-
-
-<!-- MODAL MEMBRO -->
+<!-- MODAL CRIAR MEMBRO -->
 <div class="modal fade" id="addMembro" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -437,6 +424,7 @@
     </div>
 </div>
 
+<!-- /MODALSSSS -->
 
 
 <script src="/js/equipe-perfil.js"></script>
