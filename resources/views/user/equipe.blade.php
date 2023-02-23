@@ -22,58 +22,45 @@
         <img src="/img/teams/logo/{{$team->logo}}" width="200" height="200" class="rounded-circle py-2">
         <h2>{{ $team->nome }}</h2>
 
-        @if($exibir)
-            <div class="text-center">
-                <a class="btn btn-warning  m-1" data-bs-toggle="modal" data-bs-target="#editarTeam{{$team->id}}" href="#">
-                    Configuração de time 
-                </a>
+        @if( (Auth::check() == true) && (Auth::user()->id == $team->id_dono))
+            <div class="row g-3 justify-content-center pb-5 mt-1">
+                <div class="col-sm-3">
+                    <a class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#editarTeam{{$team->id}}" href="#">
+                        Configuração de time 
+                    </a>
+                </div>
+            </div>
+        @else 
+            <div class="row g-3 justify-content-center pb-5 mt-1">
+                <div class="col-sm-3">
+                    <a class="btn btn-primary mb-3" href="/user/{{$team->id_dono}}">
+                        Perfil do Dono da Equipe
+                    </a>
+                </div>
             </div>
         @endif
+
     </div>
 
 
-    //
-    @if( (Auth::check() == true) && (Auth::user()->id != $team->id_dono))
-        <div class="container">
-            <div class="midia-social py-2">
-                <div class="row g-3 justify-content-center text-center">
+    
 
-                    <div class="col-sm-3">
-                        <a href="/user/{{$team->id_dono}}" class="btn btn-primary  mb-3">
-                            Perfil do Dono da Equipe
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    @else 
-        <div class="container">
-            <div class="midia-social py-2">
-                <div class="row g-3 justify-content-center text-center">
-
-                    <div class="col-sm-3">
-                        <a href="/user/{{$team->id_dono}}" class="btn btn-primary w-100  mb-3">
-                            Perfil do Dono da Equipe
-                        </a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    @endif
 
 <!-- LISTA DE MEMBROS -->
 <div class="container-fluid text-light text-center">
     <div class="row g-3  justify-content-center">
-        @if(count($membros) > 0)
+        
+        @if(//VERIFICA SE HÁ MEMBROS PARA EXIBIR
+            count($membros) > 0)
+            
         <div class="col-sm-8 mt-5 table-responsive-sm">
             <h3>[ Membros ]</h3>
-            @if(Auth::check() == true)
-                @if(Auth::user()->id == $team->id_dono)
+
+            @if( //VERIFICA SE ESTAR LOGADO E SE É O PERFIL DO USUARIO LOGADO 
+                (Auth::check() == true) && (Auth::user()->id == $team->id_dono) )
                 <span><i>Regras: Coach = 1 | Titulares = 5 | Reservas = 3</i></span>
-                @endif
             @endif
+            
             <table class="table text-light table-hove mt-3">    
                 <thead>
                     <tr>
@@ -82,7 +69,7 @@
                         <th scope="col">Função</th>
                         <th scope="col">Steam</th>
                         <th scope="col">Faceit</th>
-                        @if($exibir)
+                        @if($authVer)
                         <th></th>
                         @endif
                     </tr>
@@ -91,31 +78,40 @@
                     @foreach($membros as $key => $membro)
                         @if($membro->id_equipe == $team->id)
                         
-                        @if($membro->funcao == 'Coach' or $membro->funcao == 'Membro')
-                        <tr>
-                        @elseif($membro->funcao == 'Reserva')
-                        <tr class="table-light">
-                        @else
-                        <tr class="table-success">
-                        @endif
-                            <!--<th scope="row">{{ $key + 1 }}</th>-->
-                            <td>{{$membro->nick}}</td>
-                            <td>{{$membro->funcao}}</td>
-                            <td class="p-2"><a href="{{$membro->link_steam}}" class="btn btn-primary" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Steam</a></td>
-                            <td class="p-2"><a href="{{$membro->link_faceit}}" class="btn btn-warning" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">Faceit</a></td>
-                            @if($exibir)
-                            <td class="p-1 text-center">
-                                <div class="text-center">
-                                    <a data-bs-toggle="modal" data-bs-target="#verMembro{{$membro->id}}" class="btn btn-success m-1" href="#"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </td>
+                            @if($membro->funcao == 'Coach' or $membro->funcao == 'Membro')
+                            <tr>
+                            @elseif($membro->funcao == 'Reserva')
+                            <tr class="table-light">
+                            @else
+                            <tr class="table-success">
                             @endif
-                        </tr>
+                                <!--<th scope="row">{{ $key + 1 }}</th>-->
+                                <td>{{$membro->nick}}</td>
+                                <td>{{$membro->funcao}}</td>
+                                <td class="p-2">
+                                    <a href="{{$membro->link_steam}}" class="btn btn-primary" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                        Steam
+                                    </a>
+                                </td>
+                                <td class="p-2">
+                                    <a href="{{$membro->link_faceit}}" class="btn btn-warning" target="_blank"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                        Faceit
+                                    </a>
+                                </td>
+                                
+                                @if($authVer)
+                                    <td class="p-1 text-center">
+                                        <div class="text-center">
+                                            <a data-bs-toggle="modal" data-bs-target="#verMembro{{$membro->id}}" class="btn btn-success m-1" href="#"  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </td>
+                                @endif
+                            </tr>
 
 
                         <!-- MODAL EDITAR MEMBRO -->
@@ -245,23 +241,22 @@
         </div><!-- div table -->
         @endif
 
-        @if($exibir)
-        @if($exibirFuncoes)
-        <div class="p-3">
-            <div class="justify-content-center">
+        @if($authVer)
+            @if($exibirFuncoes)
+            <div class="p-3">
+                <div class="justify-content-center">
+                    
+                    <a href="#" class="btn btn-success  btn-lg mb-3" data-bs-toggle="modal" data-bs-target="#addMembro" class="btn btn-danger m-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                        Adicionar Membro
+                    </a>
                 
-                <a href="#" class="btn btn-success  btn-lg mb-3" data-bs-toggle="modal" data-bs-target="#addMembro" class="btn btn-danger m-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
-                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                    </svg>
-                    Adicionar Membro
-                </a>
-               
+                </div>
             </div>
-        </div>
-
-        @endif
+            @endif
         @endif
 
     </div> <!-- row -->

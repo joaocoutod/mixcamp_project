@@ -98,10 +98,10 @@ class TeamsController extends Controller
             $exibirFuncoes = count($reservas) > 13 ? false : true;
             
             //VALIDA EXIBIÇÃO DE ALGUNS COMPONENTES
-            $exibir = false;
+            $authVer = false;
             if(Auth::check() == true){
                 if(Auth::user()->id == $team->id_dono){
-                    $exibir = true;
+                    $authVer = true;
                 }
             }
 
@@ -112,7 +112,7 @@ class TeamsController extends Controller
                 'team' => $team,
                 'membros' => $membros, 
                 'funcoes' => $funcoes, 
-                'exibir' => $exibir,
+                'authVer' => $authVer,
                 'exibirCapitao' => $exibirCapitao,
                 'exibirCoach' => $exibirCoach,
                 'exibirTitulares' => $exibirTitulares,
