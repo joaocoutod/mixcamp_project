@@ -1,0 +1,71 @@
+Para implementar o login com Steam no seu projeto Laravel, você pode seguir os seguintes passos:
+
+Criar um aplicativo Steam na página de desenvolvedores da Steam:
+
+Acesse a página de desenvolvedores da Steam em https://partner.steamgames.com/ e faça login com sua conta Steam.
+Clique em "Registrar aplicativo" e siga as instruções para criar um novo aplicativo Steam. Você precisará fornecer um nome para o aplicativo e um URL de retorno para onde a Steam redirecionará os usuários após o login.
+Instalar a biblioteca Steam OpenID no seu projeto Laravel:
+
+Você pode usar a biblioteca Steam OpenID do Packagist, que é uma implementação PHP do protocolo OpenID da Steam. Você pode instalá-lo via Composer executando o seguinte comando no terminal na raiz do seu projeto Laravel:
+composer require ssteam/steam
+Configurar o pacote Steam no seu projeto Laravel:
+
+
+
+Abra o arquivo config/services.php e adicione a seguinte entrada:
+
+
+
+rust
+Copy code
+'steam' => [
+    'redirect' => 'http://seu-url-de-retorno-aqui',
+    'realm' => 'http://seu-site-aqui',
+    'api_key' => 'sua-chave-da-api-steam-aqui',
+],
+Substitua seu-url-de-retorno-aqui, seu-site-aqui e sua-chave-da-api-steam-aqui pelas informações correspondentes.
+
+
+
+
+Criar uma rota para o login com Steam:
+
+Adicione uma rota no seu arquivo web.php para o login com Steam:
+
+Route::get('/login/steam', 'Auth\LoginController@redirectToSteam')->name('login.steam');
+Route::get('/login/steam/callback', 'Auth\LoginController@handleSteamCallback');
+Criar um controlador para o login com Steam:
+
+
+
+
+Crie um controlador chamado LoginController dentro da pasta app/Http/Controllers/Auth.
+
+Adicione os métodos redirectToSteam e handleSteamCallback:
+
+use Illuminate\Support\Facades\Auth;
+use Steam;
+
+public function redirectToSteam()
+{
+    return Steam::redirect();
+}
+
+public function handleSteamCallback()
+{
+    $steamUser = Steam::user();
+
+    // Faça o login do usuário ou registre-o no seu banco de dados
+    $user = User::updateOrCreate(
+        ['steam_id' => $steamUser->steamID64],
+        ['name' => $steamUser->personaname]
+    );
+
+    Auth::login($user, true);
+
+    return redirect()->intended('/');
+}
+Adicionar um link para o login com Steam no seu site:
+
+Adicione um link para /login/steam no seu site, para que os usuários possam iniciar o processo de login com Steam.
+Com esses passos, você terá implementado o login com Steam no seu projeto Laravel. Certifique-se de testar cuidadosamente o seu código para garantir que tudo esteja funcionando corretamente.
