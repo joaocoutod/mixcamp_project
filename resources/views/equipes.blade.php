@@ -20,7 +20,8 @@
 </div>
 
 
-<!-- SOBRE -->
+<!-- EQUIPES -->
+@if(count($equipes) > 0)
 <div class="container-fluid text-light text-center ">
     <div class="container p-4" id="custom-cards">
         <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4  justify-content-center" id="search-results">
@@ -37,8 +38,18 @@
             @endforeach
         </div>
     </div>
-</div><!-- /SOBRE -->
-     
+</div>
+
+@else
+<div class="container text-light text-center ">
+    <div class="container p-4">
+        <h3 class="fs-5 fw-bold">Nenhuma equipe foi encontrada :(</h3>
+    </div>
+</div>
+@endif
+<!-- /EQUIPES -->
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <script>
@@ -58,20 +69,17 @@ $(document).ready(function() {
         // Limpa o container de resultados
         $('#search-results').empty();
 
+        // Verifica se o resultado da pesquisa está vazio
+        if (response.length === 0) {
+            var resulvazio = $('<p>', { class: 'fs-5 fw-bold', text: 'Nenhuma equipe foi encontrada :(' });
+            $('#search-results').append(resulvazio);
+            return;
+        }
+
         // Exibe os resultados da pesquisa em cards
         response.forEach(function(result) {
-            var col = $('<div>', { 
-                class: 'col'
-            });
-            var card = $('<div>', { 
-                class: 'card card-cover overflow-hidden bg-light rounded-4 shadow-lg ',
-                // css: {
-                //     'background-image': "",
-                //     'background-position:': 'center center',
-                //     'background-repeat': 'no-repeat',
-                //     'background-size': '100% 100%'
-                // } 
-            });
+            var col = $('<div>', { class: 'col' });
+            var card = $('<div>', { class: 'card card-cover overflow-hidden bg-light rounded-4 shadow-lg ' });
             var cardBody = $('<div>', { class: 'body-content d-flex flex-column  p-5 pb-5 text-dark text-shadow-1 text-center align-items-center' });
             var nome_equipe = $('<h3>', { class: 'nome-equipe display-6 fw-bold ', text: result.nome });
             var qtd_membros = $('<p>', { class: 'qtd-membros mb-2 fs-5 fw-bold', text: 'Membros: '+result.qtd_membros });
@@ -80,7 +88,9 @@ $(document).ready(function() {
             cardBody.append(nome_equipe, qtd_membros, ver_equipe);
             card.append(cardBody);
             col.append(card);
+
             $('#search-results').append(col);
+            
         });
       }
     });
