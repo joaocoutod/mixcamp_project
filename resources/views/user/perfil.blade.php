@@ -23,6 +23,7 @@
 
         <img src="/img/users/logo/{{$user->foto}}" width="200" height="200" class="rounded-circle py-2">
         <h2>{{ $user->nick }}</h2>
+        <span class="text-white-50 mt-0"><i>MIXCAMP ID: {{$user->id}}</i></span>
     
 
         <div class="row g-3 justify-content-center pb-5 mt-1">

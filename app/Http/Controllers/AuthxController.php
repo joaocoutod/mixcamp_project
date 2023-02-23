@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Models\User;
 use App\Models\Membros;
 
@@ -61,10 +62,17 @@ class AuthxController extends Controller
                 return back()->with('error', 'O link da steam ja estar sendo usado por um usuario.');
             }
 
+            //VERIFICA SE O ID JA EXISTE NO BANCO
+            do {
+                $randomNumber = '';
+                for ($i = 0; $i < 6; $i++) {
+                    $randomNumber .= strval(random_int(0, 9));
+                }
+            } while (User::where('id', $randomNumber)->exists());
 
-            
             //CRIAR USER
             $user = new User;
+            $user->id = $randomNumber;
             $user->nick = $request->nick; 
             $user->password = Hash::make($request->password);
             $user->foto = 'logo.png'; 

@@ -21,6 +21,7 @@
 
         <img src="/img/teams/logo/{{$team->logo}}" width="200" height="200" class="rounded-circle py-2">
         <h2>{{ $team->nome }}</h2>
+        <span class="text-white-50 mt-0"><i>MIXCAMP ID: {{$team->id}}</i></span>
 
         @if( (Auth::check() == true) && (Auth::user()->id == $team->id_dono))
             <div class="row g-3 justify-content-center mb-3 mt-1">

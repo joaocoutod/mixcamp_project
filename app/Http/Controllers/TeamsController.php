@@ -159,15 +159,24 @@ class TeamsController extends Controller
         }
 
         
-        //CRIAR EQUIPE
+        //SALVA LOGO
         $requestLogo = $request->logo;
         $extension = $requestLogo->extension();
         $logoName = md5($requestLogo->getClientOriginalName().strtotime('now')).".".$extension;
         $requestLogo->move(public_path('img/teams/logo'), $logoName);
 
+        //VERIFICA SE O ID JA EXISTE NO BANCO
+        do {
+            $randomNumber = '';
+            for ($i = 0; $i < 6; $i++) {
+                $randomNumber .= strval(random_int(0, 9));
+            }
+        } while (Teams::where('id', $randomNumber)->exists());
         
+        //CRIAR EQUIPE
         $team = new Teams;
 
+        $team->id = $randomNumber;
         $team->id_dono = Auth::user()->id;
         $team->logo = $logoName;
         $team->nome = $request->nome;

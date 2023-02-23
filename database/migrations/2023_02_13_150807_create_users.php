@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('nick')->unique();;# nick de player / login
+            $table->string('id', 6)->unique()->nullable();
+            $table->string('nick');# nick de player / login
             $table->string('password');
             $table->text('foto');
             $table->text('link_steam');
