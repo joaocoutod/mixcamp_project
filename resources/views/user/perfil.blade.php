@@ -1,6 +1,10 @@
 @extends('../layouts.main')
 
-@section('title', 'Perfil')
+@section('title', 'Perfil | '.$user->nick)
+@section('description', 'Veja esse perfil na MixCamp')
+@section('image', '/img/users/logo/'.$user->foto)
+@section('url', '/user/'.$user->id)
+
 
 @section('content')
     <div class="container-fluid text-light text-center ">
@@ -21,35 +25,35 @@
             <h2>{{ $user->nick }}</h2>
             
 
-            <div class="p-2">
+            <div class="pb-5 pt-3">
                 <div class="row g-3 justify-content-center">
                     @if(Auth::check() == true)
                         @if(Auth::user()->nick == $user->nick)
                     <div class="col-sm-6">
                         <a href="#" class="btn btn-warning" class="btn btn-warning  m-1" data-bs-toggle="modal" data-bs-target="#editarUser{{$user->id}}">Configuração de conta </a>
-                        <button id="copyButton" class="btn btn-outline-warning m-2">
+                        <!-- <button id="copyButton" class="btn btn-outline-warning m-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                                 <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
                             </svg>
-                        </button>
+                        </button> -->
                     </div>
                         @endif
                     @endif
                 </div>  
             </div>
 
-            <div class="midia-social py-4">
+            <div class="midia-social pb-5">
                 <div class="row g-3 justify-content-center">
 
                     <div class="col-md-3">
-                        @if(Auth::check() == false)
+                        <!-- @if(Auth::check() == false)
                         <button id="copyButton" class="btn btn-outline-warning w-100 btn-lg mb-3">
                             Compartilhar Perfil
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
                                 <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
                             </svg>
                         </button>
-                        @endif
+                        @endif -->
 
                         @if(Auth::check() == true)
                             @if(Auth::user()->nick == $user->nick)
@@ -86,6 +90,29 @@
             
         </div>
     </div>
+
+    <!-- EQUIPES -->
+    @if(count($equipes) > 0)
+    <div class="container-fluid text-light text-center ">
+        <h3>[ Equipes ]</h3>
+        <div class="container p-4" id="custom-cards">
+            <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4  justify-content-center" id="search-results">
+                @foreach($equipes as $equipe)
+                <div class="col">
+                    <div class="card card-cover  overflow-hidden text-bg-light rounded-4 shadow-lg">
+                        <div class="d-flex flex-column  p-5 pb-5 text-dark text-shadow-1 text-center align-items-center">
+                            <h3 class="nome-equipe display-6 fw-bold ">{{$equipe->nome}}</h3>
+                            <p class="qtd-membros mb-2 fs-5 fw-bold">Membros: {{$equipe->qtd_membros}}</p>
+                            <a class="ver-equipes btn btn-primary" href="/equipes/{{$equipe->id}}">Ver Equipe</a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div><!-- /EQUIPES -->
+    @endif
+
 
 <!-- MODAL EDITAR EQUIPE -->
 <div class="modal fade" id="editarUser{{$user->id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -192,27 +219,6 @@
     </div>
 </div>    
 
-<!-- EQUIPES -->
-@if(count($equipes) > 0)
-<div class="container-fluid text-light text-center ">
-    <h3>[ Equipes ]</h3>
-    <div class="container p-4" id="custom-cards">
-        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4  justify-content-center" id="search-results">
-            @foreach($equipes as $equipe)
-            <div class="col">
-                <div class="card card-cover  overflow-hidden text-bg-light rounded-4 shadow-lg">
-                    <div class="d-flex flex-column  p-5 pb-5 text-dark text-shadow-1 text-center align-items-center">
-                        <h3 class="nome-equipe display-6 fw-bold ">{{$equipe->nome}}</h3>
-                        <p class="qtd-membros mb-2 fs-5 fw-bold">Membros: {{$equipe->qtd_membros}}</p>
-                        <a class="ver-equipes btn btn-primary" href="http://127.0.0.1:8000/equipes/{{$equipe->id}}">Ver Equipe</a>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</div><!-- /EQUIPES -->
-@endif
 
 <script>
     //PREVIEW DE IMAGEM
@@ -223,7 +229,7 @@
 
     document.getElementById("copyButton").addEventListener("click", function() {
         var idperfil = document.getElementById('id_user').value;
-        var url = 'http://127.0.0.1:8000/user/'+idperfil;
+        var url = '/user/'+idperfil;
 
         var authcheck = document.getElementById('authcheck').value;
 

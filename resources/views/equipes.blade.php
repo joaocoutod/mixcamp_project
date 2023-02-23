@@ -1,6 +1,8 @@
 @extends('layouts.main')
 
 @section('title', 'Equipes | MIXCAMP')
+@section('description', 'Pesquisar por equipes na MixCamp')
+@section('url', '/equipes')
 
 @section('content')
 
@@ -31,7 +33,7 @@
                     <div class="d-flex flex-column  p-5 pb-5 text-dark text-shadow-1 text-center align-items-center">
                         <h3 class="nome-equipe display-6 fw-bold ">{{$equipe->nome}}</h3>
                         <p class="qtd-membros mb-2 fs-5 fw-bold">Membros: {{$equipe->qtd_membros}}</p>
-                        <a class="ver-equipes btn btn-primary" href="http://127.0.0.1:8000/equipes/{{$equipe->id}}">Ver Equipe</a>
+                        <a class="ver-equipes btn btn-primary" href="/equipes/{{$equipe->id}}">Ver Equipe</a>
                     </div>
                 </div>
             </div>
@@ -83,7 +85,7 @@ $(document).ready(function() {
             var cardBody = $('<div>', { class: 'body-content d-flex flex-column  p-5 pb-5 text-dark text-shadow-1 text-center align-items-center' });
             var nome_equipe = $('<h3>', { class: 'nome-equipe display-6 fw-bold ', text: result.nome });
             var qtd_membros = $('<p>', { class: 'qtd-membros mb-2 fs-5 fw-bold', text: 'Membros: '+result.qtd_membros });
-            var ver_equipe = $('<a>', {class: 'ver-equipes btn btn-primary', href: 'http://127.0.0.1:8000/equipes/'+result.id, text: 'Ver Equipe'});
+            var ver_equipe = $('<a>', {class: 'ver-equipes btn btn-primary', href: '/equipes/'+result.id, text: 'Ver Equipe'});
 
             cardBody.append(nome_equipe, qtd_membros, ver_equipe);
             card.append(cardBody);
