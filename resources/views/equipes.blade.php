@@ -29,10 +29,10 @@
         <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4  justify-content-center" id="search-results">
             @foreach($equipes as $equipe)
             <div class="col">
-                <div class="card card-cover  overflow-hidden text-bg-dark rounded-4 shadow-lg border">
-                    <div class="d-flex flex-column  p-5 pb-5 text-light text-shadow-1 text-center align-items-center">
-                        <img src="/img/teams/logo/{{$equipe->logo}}" width="200" height="200" class="rounded-circle ">
-                        <h3 class="nome-equipe display-6 fw-bold py-3">{{$equipe->nome}}</h3>
+                <div class="card card-cover overflow-hidden text-bg-dark rounded-4 shadow-lg border">
+                    <div class="d-flex flex-column  p-4 pb-4 text-light text-shadow-1 text-center align-items-center">
+                        <img src="/img/teams/logo/{{$equipe->logo}}" width="150" height="150" class="rounded-circle ">
+                        <h3 class="nome-equipe display-7 fw-bold py-3">{{$equipe->nome}}</h3>
                         <a class="ver-equipes btn btn-primary" href="/equipes/{{$equipe->id}}">Ver Equipe</a>
                     </div>
                 </div>

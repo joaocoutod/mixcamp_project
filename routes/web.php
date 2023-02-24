@@ -84,3 +84,5 @@ Route::post('/equipe/membro/alterarlinkfaceit', [MembroController::class, 'alter
 
 //EXCLUIR MEMBRO
 Route::get('/equipe/membro/deletar/{id_membro}/{id_equipe}', [MembroController::class, 'deletarMembro']);
+
+
