@@ -7,7 +7,7 @@ use App\http\Controllers\AuthxController;
 use App\http\Controllers\UserController;
 use App\http\Controllers\TeamsController;
 use App\http\Controllers\MembroController;
-
+use App\http\Controllers\CampeonatosController;
 
 
 //ROUTES PADRAO
@@ -15,6 +15,8 @@ Route::get('/', [HomeController::class, 'indexHome']);
 Route::get('/equipes', [TeamsController::class, 'indexTimes']);
 Route::get('/busca/equipes', [TeamsController::class, 'buscaEquipes']);
 
+Route::get('/campeonatos', [TeamsController::class, 'indexCampeonatos']);
+Route::get('/busca/campeonatos', [TeamsController::class, 'buscaCampeonatos']);
 
 
 /********AUTENTICAÇÃO********/

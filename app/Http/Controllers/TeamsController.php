@@ -11,13 +11,14 @@ use App\Models\Membros;
 
 class TeamsController extends Controller
 {   
-    //VIEW FORM CRIAR EQUIPE
+    //BUSCA TIMES
     public function indexTimes(){
         $equipes = Teams::all();
 
         return view('/equipes', ['equipes' => $equipes]); 
     }
 
+    //API DE TIMES PARA A BUSCA
     public function buscaEquipes(Request $request){ 
         // Obtém o valor da pesquisa do parâmetro "query"
         $query = $request->input('query');
